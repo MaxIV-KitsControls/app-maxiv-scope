@@ -20,6 +20,7 @@
 ##     along with this program.  If not, see [http://www.gnu.org/licenses/].
 ###############################################################################
 
+import re
 import sys
 import traceback
 import PyTango
@@ -27,7 +28,7 @@ import PyTango
 from PyQt4 import QtCore, QtGui
 from taurus.qt.qtgui.container import TaurusWidget
 from ui_measurements import Ui_Form
-from AllowedMeasurements import ALLOWED_MEASUREMENTS_LIST
+from AllowedMeasurements import ALLOWED_MEASUREMENTS, ALLOWED_SOURCES
 
 
 def alert_problems(meth):
@@ -69,17 +70,17 @@ class TaurusScopeMeasurements(TaurusWidget):
     @alert_problems
     def setModel(self, model):
         """ Set the model for the widget.
-            @param model: list of attributes models
+        @param model: list of attributes models
         """
-         #deviceModel = model[0].rsplit('/', 1)[0]
-        modelList = [(self.ui.taurusAttrListComboBox_1, model[0]),
-                     (self.ui.taurusAttrListComboBox_2, model[1]),
-                     (self.ui.taurusAttrListComboBox_3, model[2]),
-                     (self.ui.taurusAttrListComboBox_4, model[3]),
-                     (self.ui.taurusAttrListComboBox_5, model[4]),
-                     (self.ui.taurusAttrListComboBox_6, model[5]),
-                     (self.ui.taurusAttrListComboBox_7, model[6]),
-                     (self.ui.taurusAttrListComboBox_8, model[7]),
+        #deviceModel = model[0].rsplit('/', 1)[0]
+        modelList = [(self.ui.configMeasurement1, model[0]),
+                     (self.ui.configMeasurement2, model[1]),
+                     (self.ui.configMeasurement3, model[2]),
+                     (self.ui.configMeasurement4, model[3]),
+                     (self.ui.configMeasurement5, model[4]),
+                     (self.ui.configMeasurement6, model[5]),
+                     (self.ui.configMeasurement7, model[6]),
+                     (self.ui.configMeasurement8, model[7]),
                      (self.ui.taurusLabelVal1, model[8]),
                      (self.ui.taurusLabelVal2, model[9]),
                      (self.ui.taurusLabelVal3, model[10]),
@@ -88,23 +89,38 @@ class TaurusScopeMeasurements(TaurusWidget):
                      (self.ui.taurusLabelVal6, model[13]),
                      (self.ui.taurusLabelVal7, model[14]),
                      (self.ui.taurusLabelVal8, model[15]),
+                     (self.ui.sourceMeasurement1, model[16]),
+                     (self.ui.sourceMeasurement2, model[17]),
+                     (self.ui.sourceMeasurement3, model[18]),
+                     (self.ui.sourceMeasurement4, model[19]),
+                     (self.ui.sourceMeasurement5, model[20]),
+                     (self.ui.sourceMeasurement6, model[21]),
+                     (self.ui.sourceMeasurement7, model[22]),
+                     (self.ui.sourceMeasurement8, model[23]),
                      ]
-        
+
         for widget, modelToSet in modelList:
-            print "PJB", modelToSet, type(modelToSet)
             widget.setModel(modelToSet)
-            
+
     @alert_problems
     def fillComboBoxes(self):
-        self.ui.taurusAttrListComboBox_1.addItems(ALLOWED_MEASUREMENTS_LIST)
-        self.ui.taurusAttrListComboBox_2.addItems(ALLOWED_MEASUREMENTS_LIST)
-        self.ui.taurusAttrListComboBox_3.addItems(ALLOWED_MEASUREMENTS_LIST)
-        self.ui.taurusAttrListComboBox_4.addItems(ALLOWED_MEASUREMENTS_LIST)
-        self.ui.taurusAttrListComboBox_5.addItems(ALLOWED_MEASUREMENTS_LIST)
-        self.ui.taurusAttrListComboBox_6.addItems(ALLOWED_MEASUREMENTS_LIST)
-        self.ui.taurusAttrListComboBox_7.addItems(ALLOWED_MEASUREMENTS_LIST)
-        self.ui.taurusAttrListComboBox_8.addItems(ALLOWED_MEASUREMENTS_LIST)
+        self.ui.configMeasurement1.addValueNames(ALLOWED_MEASUREMENTS)
+        self.ui.configMeasurement2.addValueNames(ALLOWED_MEASUREMENTS)
+        self.ui.configMeasurement3.addValueNames(ALLOWED_MEASUREMENTS)
+        self.ui.configMeasurement4.addValueNames(ALLOWED_MEASUREMENTS)
+        self.ui.configMeasurement5.addValueNames(ALLOWED_MEASUREMENTS)
+        self.ui.configMeasurement6.addValueNames(ALLOWED_MEASUREMENTS)
+        self.ui.configMeasurement7.addValueNames(ALLOWED_MEASUREMENTS)
+        self.ui.configMeasurement8.addValueNames(ALLOWED_MEASUREMENTS)
 
+        self.ui.sourceMeasurement1.addValueNames(ALLOWED_SOURCES)
+        self.ui.sourceMeasurement2.addValueNames(ALLOWED_SOURCES)
+        self.ui.sourceMeasurement3.addValueNames(ALLOWED_SOURCES)
+        self.ui.sourceMeasurement4.addValueNames(ALLOWED_SOURCES)
+        self.ui.sourceMeasurement5.addValueNames(ALLOWED_SOURCES)
+        self.ui.sourceMeasurement6.addValueNames(ALLOWED_SOURCES)
+        self.ui.sourceMeasurement7.addValueNames(ALLOWED_SOURCES)
+        self.ui.sourceMeasurement8.addValueNames(ALLOWED_SOURCES)
 
 def main():
     from taurus.qt.qtgui.application import TaurusApplication

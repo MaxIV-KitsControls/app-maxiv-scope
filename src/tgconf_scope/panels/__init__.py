@@ -20,5 +20,6 @@
 ##     along with this program.  If not, see [http://www.gnu.org/licenses/].
 ###############################################################################
 
-from taurus_scope_measurements import * 
+from taurus_scope_measurements import *
+from waveforms import *
 from control import *

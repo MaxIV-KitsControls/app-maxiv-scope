@@ -14,165 +14,141 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="labelMeas1">
-     <property name="text">
-      <string>Measurement 1</string>
+   <item row="1" column="1">
+    <widget class="TaurusValueComboBox" name="configMeasurement2">
+     <property name="autoApply">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
-    <widget class="TaurusAttrListComboBox" name="taurusAttrListComboBox_1"/>
+   <item row="1" column="2">
+    <widget class="TaurusLabel" name="taurusLabelVal2"/>
    </item>
    <item row="0" column="2">
-    <widget class="QLabel" name="labelRes1">
-     <property name="text">
-      <string>Result</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3">
     <widget class="TaurusLabel" name="taurusLabelVal1"/>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="labelMeas2">
-     <property name="text">
-      <string>Measurement 2</string>
+    <widget class="TaurusValueComboBox" name="sourceMeasurement2">
+     <property name="autoApply">
+      <bool>true</bool>
      </property>
     </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="TaurusAttrListComboBox" name="taurusAttrListComboBox_2"/>
-   </item>
-   <item row="1" column="2">
-    <widget class="QLabel" name="labelRes2">
-     <property name="text">
-      <string>Result</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="3">
-    <widget class="TaurusLabel" name="taurusLabelVal2"/>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="labelMeas3">
-     <property name="text">
-      <string>Measurement 3</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="TaurusAttrListComboBox" name="taurusAttrListComboBox_3"/>
    </item>
    <item row="2" column="2">
-    <widget class="QLabel" name="labelRes3">
-     <property name="text">
-      <string>Result</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="3">
     <widget class="TaurusLabel" name="taurusLabelVal3"/>
    </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="labelMeas4">
-     <property name="text">
-      <string>Measurement 4</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="TaurusAttrListComboBox" name="taurusAttrListComboBox_4"/>
-   </item>
    <item row="3" column="2">
-    <widget class="QLabel" name="labelRes4">
-     <property name="text">
-      <string>Result</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="3">
     <widget class="TaurusLabel" name="taurusLabelVal4"/>
    </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="labelMeas5">
-     <property name="text">
-      <string>Measurement 5</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="TaurusAttrListComboBox" name="taurusAttrListComboBox_5"/>
-   </item>
    <item row="4" column="2">
-    <widget class="QLabel" name="labelRes5">
-     <property name="text">
-      <string>Result</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="3">
     <widget class="TaurusLabel" name="taurusLabelVal5"/>
    </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="labelMeas6">
-     <property name="text">
-      <string>Measurement 6</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1">
-    <widget class="TaurusAttrListComboBox" name="taurusAttrListComboBox_6"/>
-   </item>
    <item row="5" column="2">
-    <widget class="QLabel" name="labelRes6">
-     <property name="text">
-      <string>Result</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="3">
     <widget class="TaurusLabel" name="taurusLabelVal6"/>
    </item>
-   <item row="6" column="0">
-    <widget class="QLabel" name="labelMeas7">
-     <property name="text">
-      <string>Measurement 7</string>
+   <item row="6" column="2">
+    <widget class="TaurusLabel" name="taurusLabelVal7"/>
+   </item>
+   <item row="7" column="2">
+    <widget class="TaurusLabel" name="taurusLabelVal8"/>
+   </item>
+   <item row="3" column="1">
+    <widget class="TaurusValueComboBox" name="configMeasurement4">
+     <property name="autoApply">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
    <item row="6" column="1">
-    <widget class="TaurusAttrListComboBox" name="taurusAttrListComboBox_7"/>
-   </item>
-   <item row="6" column="2">
-    <widget class="QLabel" name="labelRes7">
-     <property name="text">
-      <string>Result</string>
+    <widget class="TaurusValueComboBox" name="configMeasurement7">
+     <property name="autoApply">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="6" column="3">
-    <widget class="TaurusLabel" name="taurusLabelVal7"/>
+   <item row="2" column="1">
+    <widget class="TaurusValueComboBox" name="configMeasurement3">
+     <property name="autoApply">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="labelMeas8">
-     <property name="text">
-      <string>Measurement 8</string>
+   <item row="4" column="1">
+    <widget class="TaurusValueComboBox" name="configMeasurement5">
+     <property name="autoApply">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="TaurusValueComboBox" name="sourceMeasurement5">
+     <property name="autoApply">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="TaurusValueComboBox" name="sourceMeasurement6">
+     <property name="autoApply">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
    <item row="7" column="1">
-    <widget class="TaurusAttrListComboBox" name="taurusAttrListComboBox_8"/>
-   </item>
-   <item row="7" column="2">
-    <widget class="QLabel" name="labelRes8">
-     <property name="text">
-      <string>Result</string>
+    <widget class="TaurusValueComboBox" name="configMeasurement8">
+     <property name="autoApply">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="7" column="3">
-    <widget class="TaurusLabel" name="taurusLabelVal8"/>
+   <item row="6" column="0">
+    <widget class="TaurusValueComboBox" name="sourceMeasurement7">
+     <property name="autoApply">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="TaurusValueComboBox" name="sourceMeasurement8">
+     <property name="autoApply">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="TaurusValueComboBox" name="sourceMeasurement3">
+     <property name="autoApply">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="TaurusValueComboBox" name="sourceMeasurement1">
+     <property name="autoApply">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="TaurusValueComboBox" name="sourceMeasurement4">
+     <property name="autoApply">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="TaurusValueComboBox" name="configMeasurement1">
+     <property name="autoApply">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="TaurusValueComboBox" name="configMeasurement6">
+     <property name="autoApply">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -183,7 +159,7 @@
    <header>taurus.qt.qtgui.display</header>
   </customwidget>
   <customwidget>
-   <class>TaurusAttrListComboBox</class>
+   <class>TaurusValueComboBox</class>
    <extends>QComboBox</extends>
    <header>taurus.qt.qtgui.input</header>
   </customwidget>
