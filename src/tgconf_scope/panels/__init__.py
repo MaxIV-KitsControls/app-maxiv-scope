@@ -21,5 +21,6 @@
 ###############################################################################
 
 from taurus_scope_measurements import *
-from waveforms import *
+#from waveforms import *
 from control import *
+from testplot import *

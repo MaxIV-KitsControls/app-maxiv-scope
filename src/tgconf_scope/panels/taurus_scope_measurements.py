@@ -64,14 +64,17 @@ class TaurusScopeMeasurements(TaurusWidget):
         TaurusWidget.__init__(self, parent, desigMode)
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-
         self.fillComboBoxes()
+         #QtCore.QObject.connect(self.ui.cursorMinValEdit, QtCore.SIGNAL("sendPoint(const QPoint &)"), self.updateCursors)
+
 
     @alert_problems
     def setModel(self, model):
         """ Set the model for the widget.
         @param model: list of attributes models
         """
+        #print "PJB update cursors ------------------------------------- "
+
         #deviceModel = model[0].rsplit('/', 1)[0]
         modelList = [(self.ui.configMeasurement1, model[0]),
                      (self.ui.configMeasurement2, model[1]),
@@ -101,6 +104,30 @@ class TaurusScopeMeasurements(TaurusWidget):
 
         for widget, modelToSet in modelList:
             widget.setModel(modelToSet)
+
+        #set the gating config
+        self.ui.taurusValueCheckBox.setModel(model[24])
+        self.ui.cursorMinValEdit.setModel(model[25])
+        self.ui.cursorMaxValEdit.setModel(model[26])
+
+    #for use outside
+    #def setCursorMinValEdit(self,min):
+    #    self.ui.cursorMinValEdit.setValue(min)
+
+    #def setCursorMaxValEdit(self,max):
+    #    self.ui.cursorMaxValEdit.setValue(max)
+
+    #def getCursorMinValEdit(self):
+    #    return self.ui.cursorMinValEdit.getValue()
+
+    #def getCursorMaxValEdit(self):
+    #    return self.ui.cursorMaxValEdit.getValue()
+
+    def updateCursors(self, coords):
+        mini,maxi = coords.split(":")
+        #print "PJB update cursors ------------------------------------- " , float(mini), float(maxi)
+        self.ui.cursorMinValEdit.setValue(float(mini))
+        self.ui.cursorMaxValEdit.setValue(float(maxi))
 
     @alert_problems
     def fillComboBoxes(self):

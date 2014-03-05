@@ -45,6 +45,7 @@ from taurus.qt.qtgui.taurusgui.utils import PanelDescription, Qt_Qt, ExternalApp
 #===============================================================================
 GUI_NAME = 'scope'
 ORGANIZATION = 'MAXIV'
+device_name = 'm4gun/scope/rohdeschwarz/'
 
 #===============================================================================
 # Specific logo. It can be an absolute path,or relative to the app dir or a
@@ -80,42 +81,34 @@ INSTRUMENTS_FROM_POOL = False
 display = PanelDescription(
     'Display',
     classname='TaurusForm',
-    model=['scope/rohdeschwarz/rto-1024/OffsetCh1',
-           'scope/rohdeschwarz/rto-1024/OffsetCh2',
-           'scope/rohdeschwarz/rto-1024/OffsetCh3',
-           'scope/rohdeschwarz/rto-1024/OffsetCh4',
-           'scope/rohdeschwarz/rto-1024/VScaleCh1',
-           'scope/rohdeschwarz/rto-1024/VScaleCh2',
-           'scope/rohdeschwarz/rto-1024/VScaleCh3',
-           'scope/rohdeschwarz/rto-1024/VScaleCh4',
-           'scope/rohdeschwarz/rto-1024/HScale'],
+    model=[device_name+'OffsetCh1',
+           device_name+'OffsetCh2',
+           device_name+'OffsetCh3',
+           device_name+'OffsetCh4',
+           device_name+'VScaleCh1',
+           device_name+'VScaleCh2',
+           device_name+'VScaleCh3',
+           device_name+'VScaleCh4',
+           device_name+'HScale'],
 )
 
 trigger = PanelDescription(
     'Trigger',
     classname='TaurusForm',
-    model=['scope/rohdeschwarz/rto-1024/Trig1Source',
-           'scope/rohdeschwarz/rto-1024/Trig1Mode',
-           'scope/rohdeschwarz/rto-1024/TrigLevel']
+    model=[device_name+'Trig1Source',
+           device_name+'Trig1Mode',
+           device_name+'TrigLevel']
 )
 
 channels = PanelDescription(
     'Channels',
     classname='TaurusForm',
-    model=['scope/rohdeschwarz/rto-1024/CouplingCh1',
-           'scope/rohdeschwarz/rto-1024/CouplingCh2',
-           'scope/rohdeschwarz/rto-1024/CouplingCh3',
-           'scope/rohdeschwarz/rto-1024/CouplingCh4']
+    model=[device_name+'CouplingCh1',
+           device_name+'CouplingCh2',
+           device_name+'CouplingCh3',
+           device_name+'CouplingCh4']
 )
 
-waveforms = PanelDescription(
-    'Waveforms',
-    classname='TaurusPlot',
-    model=[
-        'scope/rohdeschwarz/rto-1024/TimeScale|scope/rohdeschwarz/rto-1024/WaveformDataCh1',
-        'scope/rohdeschwarz/rto-1024/TimeScale|scope/rohdeschwarz/rto-1024/WaveformDataCh2',                                 'scope/rohdeschwarz/rto-1024/TimeScale|scope/rohdeschwarz/rto-1024/WaveformDataCh3',
-        'scope/rohdeschwarz/rto-1024/TimeScale|scope/rohdeschwarz/rto-1024/WaveformDataCh4']
-)
 
 #custom panel
 measurements = PanelDescription(
@@ -123,37 +116,58 @@ measurements = PanelDescription(
     classname='TaurusScopeMeasurements',
     modulename='tgconf_scope.panels',
     area=Qt_Qt.TopDockWidgetArea,
-    model=['scope/rohdeschwarz/rto-1024/Measurement1',
-           'scope/rohdeschwarz/rto-1024/Measurement2',
-           'scope/rohdeschwarz/rto-1024/Measurement3',
-           'scope/rohdeschwarz/rto-1024/Measurement4',
-           'scope/rohdeschwarz/rto-1024/Measurement5',
-           'scope/rohdeschwarz/rto-1024/Measurement6',
-           'scope/rohdeschwarz/rto-1024/Measurement7',
-           'scope/rohdeschwarz/rto-1024/Measurement8',
-           'scope/rohdeschwarz/rto-1024/Measurement1Res',
-           'scope/rohdeschwarz/rto-1024/Measurement2Res',
-           'scope/rohdeschwarz/rto-1024/Measurement3Res',
-           'scope/rohdeschwarz/rto-1024/Measurement4Res',
-           'scope/rohdeschwarz/rto-1024/Measurement5Res',
-           'scope/rohdeschwarz/rto-1024/Measurement6Res',
-           'scope/rohdeschwarz/rto-1024/Measurement7Res',
-           'scope/rohdeschwarz/rto-1024/Measurement8Res',
-           'scope/rohdeschwarz/rto-1024/Measurement1Source',
-           'scope/rohdeschwarz/rto-1024/Measurement2Source',
-           'scope/rohdeschwarz/rto-1024/Measurement3Source',
-           'scope/rohdeschwarz/rto-1024/Measurement4Source',
-           'scope/rohdeschwarz/rto-1024/Measurement5Source',
-           'scope/rohdeschwarz/rto-1024/Measurement6Source',
-           'scope/rohdeschwarz/rto-1024/Measurement7Source',
-           'scope/rohdeschwarz/rto-1024/Measurement8Source']
+    model=[
+        device_name+'Measurement1',
+        device_name+'Measurement2',
+        device_name+'Measurement3',
+        device_name+'Measurement4',
+        device_name+'Measurement5',
+        device_name+'Measurement6',
+        device_name+'Measurement7',
+        device_name+'Measurement8',
+        device_name+'Measurement1Res',
+        device_name+'Measurement2Res',
+        device_name+'Measurement3Res',
+        device_name+'Measurement4Res',
+        device_name+'Measurement5Res',
+        device_name+'Measurement6Res',
+        device_name+'Measurement7Res',
+        device_name+'Measurement8Res',
+        device_name+'Measurement1Source',
+        device_name+'Measurement2Source',
+        device_name+'Measurement3Source',
+        device_name+'Measurement4Source',
+        device_name+'Measurement5Source',
+        device_name+'Measurement6Source',
+        device_name+'Measurement7Source',
+        device_name+'Measurement8Source',
+        #
+        device_name+'MeasurementGateOnOff',
+        device_name+'MeasurementGateStart',
+        device_name+'MeasurementGateStop',
+        ],
+    sharedDataRead={'SelectedInstrument':'updateCursors'},
+    )
+
+allwaveforms = PanelDescription(
+    'AllWaveforms',
+    classname='TestPlot',
+    modulename='tgconf_scope.panels',
+    area=Qt_Qt.TopDockWidgetArea,
+    model=[
+        device_name+'TimeScale|'+device_name+'WaveformDataCh1',
+        device_name+'TimeScale|'+device_name+'WaveformDataCh2',
+        device_name+'TimeScale|'+device_name+'WaveformDataCh3',
+        device_name+'TimeScale|'+device_name+'WaveformDataCh4',
+        ],
+    sharedDataWrite={'SelectedInstrument':'sendPoint(QString)'}
 )
 
-#custom panel
+#custom control panel
 mod = []
-mod.append('scope/rohdeschwarz/rto-1024/Status')
-mod.append('scope/rohdeschwarz/rto-1024/State')
-mod.append('scope/rohdeschwarz/rto-1024/AcquireAvailable')
+mod.append(device_name+'Status')
+mod.append(device_name+'State')
+mod.append(device_name+'AcquireAvailable')
 controlwidget = PanelDescription('Control',
                                  classname='Control',
                                  modulename='tgconf_scope.panels',
