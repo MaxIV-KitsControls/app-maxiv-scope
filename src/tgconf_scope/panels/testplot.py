@@ -84,11 +84,20 @@ class TestPlot(TaurusWidget):
         self.devname = ((model[0].rsplit('|', 1))[0]).rsplit('/', 1)[0]
         self.tango_scope = taurus.Device(self.devname)
         #print "in testplot devname ", self.devname,    
-        self.hscale = float(taurus.Attribute(self.devname+'/HScale').getDisplayValue())
+        #self.hscale = (taurus.Attribute(self.devname+'/HScale').getValueObj())
+        self.hscale =  self.tango_scope.HScale
         self.timeMarker.setXValue(-self.hscale/100.0)
         self.timeMarker2.setXValue(self.hscale/100.0)
      
-        self.yscale = float(taurus.Attribute(self.devname+'/VScaleCh1').getDisplayValue())
+
+        yscales =[self.tango_scope.VScaleCh1,
+                  self.tango_scope.VScaleCh2,
+                  self.tango_scope.VScaleCh3,
+                  self.tango_scope.VScaleCh4]
+
+        self.yscale = max(yscales)
+        print "in testplot devname ", self.devname,   self.hscale, self.yscale
+        
 
     def moveCursor(self, point):
 
