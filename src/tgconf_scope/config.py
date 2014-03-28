@@ -45,7 +45,6 @@ from taurus.qt.qtgui.taurusgui.utils import PanelDescription, Qt_Qt, ExternalApp
 #===============================================================================
 GUI_NAME = 'scope'
 ORGANIZATION = 'MAXIV'
-device_name = 'm4gun/scope/rohdeschwarz/'
 
 #===============================================================================
 # Specific logo. It can be an absolute path,or relative to the app dir or a
@@ -77,102 +76,67 @@ INSTRUMENTS_FROM_POOL = False
 # for the gblgui_utils module)
 #===============================================================================
 
+scope_selector = PanelDescription(
+    'Scope Selector',
+    classname = "ScopeSelector",
+    modulename="tgconf_scope.panels",
+    area = Qt_Qt.TopDockWidgetArea,
+    sharedDataWrite={'SelectedScope': 'highlighted(QString)'}
+    )
 
-display = PanelDescription(
-    'Display',
-    classname='TaurusForm',
-    model=[device_name+'OffsetCh1',
-           device_name+'OffsetCh2',
-           device_name+'OffsetCh3',
-           device_name+'OffsetCh4',
-           device_name+'VScaleCh1',
-           device_name+'VScaleCh2',
-           device_name+'VScaleCh3',
-           device_name+'VScaleCh4',
-           device_name+'HScale'],
-)
+scales = PanelDescription(
+    'Scales',
+    classname = 'Scales',
+    modulename="tgconf_scope.panels",
+    area = Qt_Qt.TopDockWidgetArea,
+    sharedDataRead={"SelectedScope": "setModel"}
+    )
 
 trigger = PanelDescription(
     'Trigger',
-    classname='TaurusForm',
-    model=[device_name+'Trig1Source',
-           device_name+'Trig1Mode',
-           device_name+'TrigLevel']
-)
+    classname='Trigger',
+    modulename="tgconf_scope.panels",
+    area = Qt_Qt.TopDockWidgetArea,
+    sharedDataRead={"SelectedScope": "setModel"}
+    )
 
 channels = PanelDescription(
     'Channels',
-    classname='TaurusForm',
-    model=[device_name+'CouplingCh1',
-           device_name+'CouplingCh2',
-           device_name+'CouplingCh3',
-           device_name+'CouplingCh4']
+    classname='Channels',
+    modulename="tgconf_scope.panels",
+    area = Qt_Qt.TopDockWidgetArea,
+    sharedDataRead={"SelectedScope": "setModel"}
+)
+
+controlwidget = PanelDescription(
+    'Control',
+    classname='Control',
+    modulename='tgconf_scope.panels',
+    area = Qt_Qt.TopDockWidgetArea,
+    sharedDataRead={"SelectedScope": "setModel"}
 )
 
 
-#custom panel
+#measurements panel
 measurements = PanelDescription(
     'Measurements',
-    classname='TaurusScopeMeasurements',
+    classname='ScopeMeasurements',
     modulename='tgconf_scope.panels',
     area=Qt_Qt.TopDockWidgetArea,
-    model=[
-        device_name+'Measurement1',
-        device_name+'Measurement2',
-        device_name+'Measurement3',
-        device_name+'Measurement4',
-        device_name+'Measurement5',
-        device_name+'Measurement6',
-        device_name+'Measurement7',
-        device_name+'Measurement8',
-        device_name+'Measurement1Res',
-        device_name+'Measurement2Res',
-        device_name+'Measurement3Res',
-        device_name+'Measurement4Res',
-        device_name+'Measurement5Res',
-        device_name+'Measurement6Res',
-        device_name+'Measurement7Res',
-        device_name+'Measurement8Res',
-        device_name+'Measurement1Source',
-        device_name+'Measurement2Source',
-        device_name+'Measurement3Source',
-        device_name+'Measurement4Source',
-        device_name+'Measurement5Source',
-        device_name+'Measurement6Source',
-        device_name+'Measurement7Source',
-        device_name+'Measurement8Source',
-        #
-        device_name+'MeasurementGateOnOff',
-        device_name+'MeasurementGateStart',
-        device_name+'MeasurementGateStop',
-        ],
-    sharedDataRead={'SelectedInstrument':'updateCursors'},
+    sharedDataRead={"SelectedScope": "setModel",
+                    'SelectedInstrument':'updateCursors'},
     )
 
+#waveforms panel
 allwaveforms = PanelDescription(
     'AllWaveforms',
     classname='TestPlot',
     modulename='tgconf_scope.panels',
     area=Qt_Qt.TopDockWidgetArea,
-    model=[
-        device_name+'TimeScale|'+device_name+'WaveformDataCh1',
-        device_name+'TimeScale|'+device_name+'WaveformDataCh2',
-        device_name+'TimeScale|'+device_name+'WaveformDataCh3',
-        device_name+'TimeScale|'+device_name+'WaveformDataCh4',
-        ],
+    sharedDataRead={"SelectedScope": "setModel"},
     sharedDataWrite={'SelectedInstrument':'sendPoint(QString)'}
 )
 
-#custom control panel
-mod = []
-mod.append(device_name+'Status')
-mod.append(device_name+'State')
-mod.append(device_name+'AcquireAvailable')
-controlwidget = PanelDescription('Control',
-                                 classname='Control',
-                                 modulename='tgconf_scope.panels',
-                                 area = Qt_Qt.TopDockWidgetArea,
-                                 model=mod)
 
 
 

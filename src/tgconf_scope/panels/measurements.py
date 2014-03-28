@@ -59,7 +59,7 @@ def alert_problems(meth):
     return _alert_problems
 
 
-class TaurusScopeMeasurements(TaurusWidget):
+class ScopeMeasurements(TaurusWidget):
     def __init__(self, param=None, parent=None, desigMode=False):
         TaurusWidget.__init__(self, parent, desigMode)
         self.ui = Ui_Form()
@@ -69,11 +69,42 @@ class TaurusScopeMeasurements(TaurusWidget):
 
 
     @alert_problems
-    def setModel(self, model):
+    def setModel(self, device_name):
         """ Set the model for the widget.
         @param model: list of attributes models
         """
         #print "PJB update cursors ------------------------------------- "
+
+        model = [device_name+"/Measurement1",
+                 device_name+'/Measurement2',
+                 device_name+'/Measurement3',
+                 device_name+'/Measurement4',
+                 device_name+'/Measurement5',
+                 device_name+'/Measurement6',
+                 device_name+'/Measurement7',
+                 device_name+'/Measurement8',
+                 device_name+'/Measurement1Res',
+                 device_name+'/Measurement2Res',
+                 device_name+'/Measurement3Res',
+                 device_name+'/Measurement4Res',
+                 device_name+'/Measurement5Res',
+                 device_name+'/Measurement6Res',
+                 device_name+'/Measurement7Res',
+                 device_name+'/Measurement8Res',
+                 device_name+'/Measurement1Source',
+                 device_name+'/Measurement2Source',
+                 device_name+'/Measurement3Source',
+                 device_name+'/Measurement4Source',
+                 device_name+'/Measurement5Source',
+                 device_name+'/Measurement6Source',
+                 device_name+'/Measurement7Source',
+                 device_name+'/Measurement8Source',
+                 #
+                 device_name+'/MeasurementGateOnOff',
+                 device_name+'/MeasurementGateStart',
+                 device_name+'/MeasurementGateStop',
+                 ]
+
 
         #deviceModel = model[0].rsplit('/', 1)[0]
         modelList = [(self.ui.configMeasurement1, model[0]),
@@ -154,7 +185,7 @@ def main():
 
     app = TaurusApplication()
     model = ''
-    panel = TaurusScopeMeasurements()
+    panel = ScopeMeasurements()
     panel.setModel(model)
     panel.show()
 

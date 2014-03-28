@@ -31,7 +31,6 @@ from ui_testplot import Ui_TestPlot
 import PyQt4.Qwt5 as Qwt
 from PyQt4.Qt import *
 from PyQt4.Qwt5 import *
-from taurus_scope_measurements import TaurusScopeMeasurements
 import taurus
 
 class TestPlot(TaurusWidget):
@@ -43,7 +42,6 @@ class TestPlot(TaurusWidget):
         self.hscale=1.0
         self.devname=""
         self.tango_scope=None
-        self.measurements_panel = None
 
         #peak marker
         self.peakMarker = QwtPlotMarker()
@@ -71,17 +69,23 @@ class TestPlot(TaurusWidget):
 
 
 
-    def setModel(self, model):
+    def setModel(self, device_name):
         """ Set the model for the widget.
         @param model: list of attributes models
         """
 
-        self.ui.taurusPlot.setModel(model)
-        
-        print "got measurement panel ", model[0]
-        #self.measurements_panel =  model[4]
+        #device_name is a string containing the device name
+        model=[
+            str(device_name)+'/TimeScale|'+str(device_name)+'/WaveformDataCh1',
+            str(device_name)+'/TimeScale|'+str(device_name)+'/WaveformDataCh2',
+            str(device_name)+'/TimeScale|'+str(device_name)+'/WaveformDataCh3',
+            str(device_name)+'/TimeScale|'+str(device_name)+'/WaveformDataCh4',
+            ]
 
-        self.devname = ((model[0].rsplit('|', 1))[0]).rsplit('/', 1)[0]
+        #set model for the plot
+        self.ui.taurusPlot.setModel(model)
+
+        self.devname = str(device_name)
         self.tango_scope = taurus.Device(self.devname)
         #print "in testplot devname ", self.devname,    
         #self.hscale = (taurus.Attribute(self.devname+'/HScale').getValueObj())
@@ -96,7 +100,6 @@ class TestPlot(TaurusWidget):
                   self.tango_scope.VScaleCh4]
 
         self.yscale = max(yscales)
-        print "in testplot devname ", self.devname,   self.hscale, self.yscale
         
 
     def moveCursor(self, point):

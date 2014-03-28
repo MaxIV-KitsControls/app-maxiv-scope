@@ -20,7 +20,10 @@
 ##     along with this program.  If not, see [http://www.gnu.org/licenses/].
 ###############################################################################
 
-from taurus_scope_measurements import *
-#from waveforms import *
+from measurements import *
 from control import *
+from channels import *
+from scales import *
+from trigger import *
 from testplot import *
+from scopeselector import *

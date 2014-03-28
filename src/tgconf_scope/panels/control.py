@@ -27,30 +27,24 @@ class Control(TaurusWidget):
         #self.connect(self._ui.golocalButton, QtCore.SIGNAL('clicked()'), self.setControlButtons)
 
 
-    @classmethod
-    def getQtDesignerPluginInfo(cls):
-        ret = TaurusWidget.getQtDesignerPluginInfo()
-        ret['module'] = 'modulatorctrl'
-        ret['group'] = 'Taurus Containers'
-        ret['container'] = ':/designer/frame.png'
-        ret['container'] = False
-        return ret
-    
     def setModel(self, model):
 
-        #Model is a list of dev names and attribues passed from the config file
+        #Model is a string containing the device name
+        attributes = [model+"/Status",
+                      model+"/State",
+                      model+"/AcquireAvailable",
+                      ]
 
         #set attributes in the form
-        self._ui.taurusForm.setModel(model)
+        #for attrib in attributes:
+        self._ui.taurusForm.setModel(attributes)
 
         #set the buttons - just need device name
-        devname = (model[0].rsplit('/', 1))[0]
-
-        self._ui.startButton.setModel(devname)
-        self._ui.golocalButton.setModel(devname)
+        self._ui.startButton.setModel(model)
+        self._ui.golocalButton.setModel(model)
         #print 'PJB *************************', self._ui.golocalButton.getModelObj(), self._ui.golocalButton.UseParentModel
 
-        self.tango_scope = taurus.Device(devname)
+        self.tango_scope = taurus.Device(model)
         self.state = self.tango_scope.State()
         #print 'PJB ------- ',  self.state
 
@@ -60,7 +54,7 @@ class Control(TaurusWidget):
         # Add event listeners to monitor relevant Taurus attribute changes
         # PJB can do it like this to check change of state in the device, with a listener below.
         # However, this requires the attribute to be polled. Can also just do it in Qt with a signal
-        taurus.Attribute(devname+'/State').addListener(self.stateListener)
+        taurus.Attribute(model+'/State').addListener(self.stateListener)
 
     def setControlButtons(self):
         #print "-----------------clicked "
