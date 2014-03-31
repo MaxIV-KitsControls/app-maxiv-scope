@@ -3,7 +3,7 @@
 from setuptools import setup
 
 setup(name = "taurusgui-scope",
-      version = "1.0",
+      version = "0.2.0",
       description = "TaurusGUI for Rohde&Schwarz oscilloscope",
       author = "Paul Bell",
       author_email = "paul.bell@maxlab.lu.se",
