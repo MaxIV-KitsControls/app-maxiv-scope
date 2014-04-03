@@ -3,8 +3,6 @@ from taurus import Database
 
 
 class ScopeSelector(QtGui.QComboBox):
-    domain = 'm4gun'
-    family = 'scope'
 
     def __init__(self, parent=None):
         QtGui.QComboBox.__init__(self, parent)
@@ -12,8 +10,7 @@ class ScopeSelector(QtGui.QComboBox):
     
     def _addItems(self):
         db = Database()
-        for member in db.getDeviceMemberNames(self.domain, self.family):
-            item = '%s/%s/%s' % (self.domain, self.family, member)
+        for item in db.get_device_exported_for_class('RohdeSchwarzRTO').value_string:
             self.addItem(item)
 
 
