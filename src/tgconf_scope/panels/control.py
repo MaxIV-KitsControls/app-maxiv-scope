@@ -33,6 +33,10 @@ class Control(TaurusWidget):
         attributes = [model+"/Status",
                       model+"/State",
                       model+"/AcquireAvailable",
+                      model+"/StateCh1",
+                      model+"/StateCh2",
+                      model+"/StateCh3",
+                      model+"/StateCh4",
                       ]
 
         #set attributes in the form

@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-# Version 2.2.2 11/4/2013 Paul Bell
-#
 #############################################################################
 ##
 ## This file is part of Taurus, a Tango User Interface Library
@@ -78,8 +76,8 @@ INSTRUMENTS_FROM_POOL = False
 # for the gblgui_utils module)
 #===============================================================================
 
-#Test config only for the lab
-listOfDevices = ['m4gun/scope/rohdeschwarz',
+
+listOfDevices = ['I.K00/DIA/OSCA01',
                  #'I.K00/DIA/OSCA02',
                  #'I.K00/DIA/OSCA03',
                  #'I.K01/DIA/OSCA01', 
