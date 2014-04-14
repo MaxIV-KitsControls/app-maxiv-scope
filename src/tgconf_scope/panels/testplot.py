@@ -34,12 +34,17 @@ from PyQt4.Qwt5 import *
 import taurus
 
 class TestPlot(TaurusWidget):
+
+    trigger = QtCore.pyqtSignal()
+
     def __init__(self, param=None, parent=None, desigMode=False):
         TaurusWidget.__init__(self, parent, desigMode)
         self.ui = Ui_TestPlot()
         self.ui.setupUi(self)
     
         self.hscale=1.0
+        self.yscale=1.0
+        
         self.devname=""
         self.tango_scope=None
 
@@ -66,6 +71,7 @@ class TestPlot(TaurusWidget):
         #
         self.plotPicker = Qwt.QwtPlotPicker(Qwt.QwtPlot.xBottom, Qwt.QwtPlot.yLeft, Qwt.QwtPicker.PointSelection, Qwt.QwtPlotPicker.NoRubberBand, Qwt.QwtPicker.AlwaysOff, self.ui.taurusPlot.canvas())
         self.connect(self.plotPicker,  QtCore.SIGNAL('moved(const QPoint &)'), self.moveCursor)
+        self.trigger.connect(self.changeScale)
 
 
 
@@ -89,19 +95,45 @@ class TestPlot(TaurusWidget):
         self.tango_scope = taurus.Device(self.devname)
         #print "in testplot devname ", self.devname,    
         #self.hscale = (taurus.Attribute(self.devname+'/HScale').getValueObj())
-        self.hscale =  self.tango_scope.HScale
+
+        try:
+            self.hscale =  self.tango_scope.HScale
+            yscales =[self.tango_scope.VScaleCh1,
+                      self.tango_scope.VScaleCh2,
+                      self.tango_scope.VScaleCh3,
+                      self.tango_scope.VScaleCh4]
+            self.yscale = max(yscales)
+        except:    
+            print "cannot connect plot to scope"
+
         self.timeMarker.setXValue(-self.hscale/100.0)
         self.timeMarker2.setXValue(self.hscale/100.0)
      
+        print "y scale ", self.yscale*5.0
+        self.ui.taurusPlot.setAxisScale(self.ui.taurusPlot.yLeft, -self.yscale*5.0,  self.yscale*5.0)
 
-        yscales =[self.tango_scope.VScaleCh1,
-                  self.tango_scope.VScaleCh2,
-                  self.tango_scope.VScaleCh3,
-                  self.tango_scope.VScaleCh4]
+        taurus.Attribute(str(device_name)+'/VScaleCh1').addListener(self.stateListener)
+        taurus.Attribute(str(device_name)+'/VScaleCh2').addListener(self.stateListener)
+        taurus.Attribute(str(device_name)+'/VScaleCh3').addListener(self.stateListener)
+        taurus.Attribute(str(device_name)+'/VScaleCh4').addListener(self.stateListener)
 
-        self.yscale = max(yscales)
+
+
+    def stateListener(self, src, evt_type, attr_val):
+        if isinstance(src,taurus.core.tango.tangoattribute.TangoAttribute) and evt_type==PyTango.EventType.CHANGE_EVENT:
+        #if evt_type==PyTango.EventType.QUALITY_EVENT:
+        #if isinstance(src,taurus.core.tango.tangoattribute.TangoAttribute):
+            yscales =[self.tango_scope.VScaleCh1,
+                      self.tango_scope.VScaleCh2,
+                      self.tango_scope.VScaleCh3,
+                      self.tango_scope.VScaleCh4]
+            self.yscale = max(yscales)
+            #print "new scale ", self.yscale
+            self.trigger.emit()
+
+    def changeScale(self):
+        self.ui.taurusPlot.setAxisScale(Qwt.QwtPlot.yLeft, -self.yscale*5.0,  self.yscale*5.0)
         
-
     def moveCursor(self, point):
 
         #print self.timeMarker.xValue()

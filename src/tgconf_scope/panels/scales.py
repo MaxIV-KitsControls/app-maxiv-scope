@@ -37,6 +37,7 @@ class Scales(TaurusWidget):
         self._ui.taurusForm.setModel(attributes)
 
 
+
 def main():
     app = QtGui.QApplication(sys.argv)
     w = Scales()
