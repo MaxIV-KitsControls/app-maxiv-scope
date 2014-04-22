@@ -98,36 +98,39 @@ class TestPlot(TaurusWidget):
 
         try:
             self.hscale =  self.tango_scope.HScale
-            yscales =[self.tango_scope.VScaleCh1,
-                      self.tango_scope.VScaleCh2,
-                      self.tango_scope.VScaleCh3,
-                      self.tango_scope.VScaleCh4]
-            self.yscale = max(yscales)
+            #yscales =[self.tango_scope.VScaleCh1,
+            #          self.tango_scope.VScaleCh2,
+            #          self.tango_scope.VScaleCh3,
+            #          self.tango_scope.VScaleCh4]
+            #self.yscale = max(yscales)
         except:    
             print "cannot connect plot to scope"
 
         self.timeMarker.setXValue(-self.hscale/100.0)
         self.timeMarker2.setXValue(self.hscale/100.0)
      
-        print "y scale ", self.yscale*5.0
+        #print "y scale ", self.yscale*5.0
         self.ui.taurusPlot.setAxisScale(self.ui.taurusPlot.yLeft, -self.yscale*5.0,  self.yscale*5.0)
+        self.ui.taurusPlot.setAxisScale(self.ui.taurusPlot.yRight, -self.yscale*5.0,  self.yscale*5.0)
 
-        taurus.Attribute(str(device_name)+'/VScaleCh1').addListener(self.stateListener)
-        taurus.Attribute(str(device_name)+'/VScaleCh2').addListener(self.stateListener)
-        taurus.Attribute(str(device_name)+'/VScaleCh3').addListener(self.stateListener)
-        taurus.Attribute(str(device_name)+'/VScaleCh4').addListener(self.stateListener)
+        taurus.Attribute(str(device_name)+'/TimeScale').addListener(self.stateListener)
+        #taurus.Attribute(str(device_name)+'/VScaleCh1').addListener(self.stateListener)
+        #taurus.Attribute(str(device_name)+'/VScaleCh2').addListener(self.stateListener)
+        #taurus.Attribute(str(device_name)+'/VScaleCh3').addListener(self.stateListener)
+        #taurus.Attribute(str(device_name)+'/VScaleCh4').addListener(self.stateListener)
 
 
-
+    #PJB not used for vscale in v2.3.3 since set scale always to pm5 and receive unscaled waveform data
     def stateListener(self, src, evt_type, attr_val):
         if isinstance(src,taurus.core.tango.tangoattribute.TangoAttribute) and evt_type==PyTango.EventType.CHANGE_EVENT:
         #if evt_type==PyTango.EventType.QUALITY_EVENT:
         #if isinstance(src,taurus.core.tango.tangoattribute.TangoAttribute):
-            yscales =[self.tango_scope.VScaleCh1,
-                      self.tango_scope.VScaleCh2,
-                      self.tango_scope.VScaleCh3,
-                      self.tango_scope.VScaleCh4]
-            self.yscale = max(yscales)
+            #yscales =[self.tango_scope.VScaleCh1,
+            #          self.tango_scope.VScaleCh2,
+            #          self.tango_scope.VScaleCh3,
+            #          self.tango_scope.VScaleCh4]
+            #self.yscale = max(yscales)
+            #self.hscale =self.tango_scope.TimeScale1,
             #print "new scale ", self.yscale
             self.trigger.emit()
 
@@ -149,7 +152,7 @@ class TestPlot(TaurusWidget):
         
         #10 percent y scale NEED TO GET VSCALE FROM THE SETTING IN THE DEVICE
         granularityY= self.yscale/ 3.0
-        granularityX= self.hscale / 8.0
+        granularityX= self.hscale / 2.0
 
         #print " x -- y     distance ", pickX, pickY, Xdistance, granularityX
 

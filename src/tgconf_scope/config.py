@@ -79,7 +79,7 @@ INSTRUMENTS_FROM_POOL = False
 #===============================================================================
 
 #Test config only for the lab
-listOfDevices = ['m4gun/scope/rohdeschwarz',
+listOfDevices = ['m4gun/scope/rohdeschwarz-pss',
                  #'I.K00/DIA/OSCA02',
                  #'I.K00/DIA/OSCA03',
                  #'I.K01/DIA/OSCA01', 

@@ -85,7 +85,7 @@ class Control(TaurusWidget):
 
     def stateListener(self, src, evt_type, attr_val):
         if isinstance(src,taurus.core.tango.tangoattribute.TangoAttribute) and evt_type==PyTango.EventType.CHANGE_EVENT:
-            #print "*************** PJB see change ************** "
+            print "*************** PJB see change ************** "
             print src,taurus.core.tango.tangoattribute.TangoAttribute,PyTango.EventType
             self.state = self.tango_scope.State()
             #print 'PJB state now ------- ',  self.state
