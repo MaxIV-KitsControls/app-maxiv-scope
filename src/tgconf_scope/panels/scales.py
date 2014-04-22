@@ -16,22 +16,22 @@ class Scales(TaurusWidget):
 
     def __init__(self, parent=None, designMode=False):
         TaurusWidget.__init__(self, parent, designMode=designMode)
-        
+
         self._ui = Ui_Display()
         self._ui.setupUi(self)
 
     def setModel(self, model):
 
         #Get the model from the scope chooser then set attributes here
-        attributes = [model+"/OffsetCh1",
-                      model+"/OffsetCh2",
-                      model+"/OffsetCh3",
-                      model+"/OffsetCh4",
-                      model+"/VScaleCh1",
-                      model+"/VScaleCh2",
-                      model+"/VScaleCh3",
-                      model+"/VScaleCh4",
-                      model+"/HScale",
+        attributes = [model+"/PositionCh1",
+                      model+"/PositionCh2",
+                      model+"/PositionCh3",
+                      model+"/PositionCh4",
+                      model+"/VRangeCh1",
+                      model+"/VRangeCh2",
+                      model+"/VRangeCh3",
+                      model+"/VRangeCh4",
+                      model+"/HRange",
                       ]
 
         self._ui.taurusForm.setModel(attributes)
