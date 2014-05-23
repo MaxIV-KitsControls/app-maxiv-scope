@@ -154,7 +154,7 @@ class TestPlot(TaurusWidget):
         granularityY= self.yscale/ 3.0
         granularityX= self.hscale / 2.0
 
-        #print " x -- y     distance ", pickX, pickY, Xdistance, granularityX
+        #print " x -- y     distance ", pickX, pickY, Xdistance, granularityX, Xdistance2
 
         #markerSelected = self.closestMarker(pickX,pickY)
         if abs(Ydistance) < granularityY:

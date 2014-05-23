@@ -23,14 +23,14 @@ class Scales(TaurusWidget):
     def setModel(self, model):
 
         #Get the model from the scope chooser then set attributes here
-        attributes = [model+"/PositionCh1",
-                      model+"/PositionCh2",
-                      model+"/PositionCh3",
-                      model+"/PositionCh4",
-                      model+"/VRangeCh1",
-                      model+"/VRangeCh2",
-                      model+"/VRangeCh3",
-                      model+"/VRangeCh4",
+        attributes = [model+"/OffsetCh1",
+                      model+"/OffsetCh2",
+                      model+"/OffsetCh3",
+                      model+"/OffsetCh4",
+                      model+"/VScaleCh1",
+                      model+"/VScaleCh2",
+                      model+"/VScaleCh3",
+                      model+"/VScaleCh4",
                       model+"/HRange",
                       ]
 
