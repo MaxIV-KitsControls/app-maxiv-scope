@@ -1,2 +1,2 @@
 #!/bin/bash
-taurusgui rtmscope
+python -m rtmscope

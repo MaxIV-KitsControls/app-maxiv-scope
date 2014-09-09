@@ -8,7 +8,7 @@ import sys
 
 # Constants
 PERIOD_ARG = "--taurus-polling-period="
-PERIOD = 200
+PERIOD = 100
 
 # Argument formating
 for arg in sys.argv:
