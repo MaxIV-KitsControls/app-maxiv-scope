@@ -16,11 +16,20 @@ class FilteredTaurusCommandsForm(TaurusCommandsForm):
     base_ignore = ["state", "status"]
     
     def __init__(self, *args, **kwargs):
+        # Get keywords
         self.ignore = self.base_ignore
         self.ignore.extend(kwargs.pop("ignore", ()))
+        self.include = kwargs.pop("include", None)
+        self.show_output = kwargs.pop("show_output", False)
+        # Init
         TaurusCommandsForm.__init__(self, *args, **kwargs)
-        self._outputTE.hide()
-        filt = lambda arg: arg.cmd_name.lower() not in self.ignore
+        # Show output
+        self._outputTE.setVisible(self.show_output)
+        # Filter commands
+        if self.include is None:
+            filt = lambda arg: arg.cmd_name.lower() not in self.ignore
+        else:
+            filt = lambda arg: arg.cmd_name.lower() in self.include
         self.setViewFilters([filt])
 
 
