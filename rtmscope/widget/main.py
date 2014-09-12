@@ -5,23 +5,17 @@ if __name__ == "__main__":
     import sys
     sys.path.insert(0, '../..')
 
-
-# Qt import
-from PyQt4 import QtGui, QtCore
-
-
 # Taurus import
+from taurus.qt import QtGui, QtCore
 from taurus.qt.qtgui.container import TaurusWidget, TaurusScrollArea
-
-import rtmscope
-print rtmscope.__file__
 
 # Widget imports
 from rtmscope.widget.base import FilteredTaurusCommandsForm
 from rtmscope.widget.base import NoButtonTaurusForm
 from rtmscope.widget.base import PatchedTaurusValueCheckBox
 from rtmscope.widget.base import PatchedTaurusPlot
-from rtmscope.widget.scopeplot import ScopePlotWidget
+try: from rtmscope.widget.scopeplot import ScopePlotWidget
+except ImportError:  ScopePlotWidget = None
 
 # Main class
 class ScopeWidget(TaurusWidget):
@@ -38,7 +32,7 @@ class ScopeWidget(TaurusWidget):
         self.exec_dialog = self.build_exec_dialog()
         self.state_widget = self.build_state_widget()
         self.command_widget = self.build_command_widget(self.exec_dialog)
-        self.plot_widget = self.build_scopeplot_widget()
+        self.plot_widget = self.build_plot_widget()
         self.channel_widget = self.build_channel_widget()
         self.range_widget = self.build_range_widget()
         self.position_widget = self.build_position_widget()
@@ -110,6 +104,11 @@ class ScopeWidget(TaurusWidget):
         layout.addWidget(widget)
         dialog.setLayout(layout)
         return dialog
+
+    def build_plot_widget(self):
+        if ScopePlotWidget:
+            return self.build_scopeplot_widget()
+        return self.build_taurusplot_widget()
 
     def build_scopeplot_widget(self):
         widget = ScopePlotWidget(parent=self)

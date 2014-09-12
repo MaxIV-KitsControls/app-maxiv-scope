@@ -6,7 +6,6 @@ from taurus.qt import QtGui, QtCore
 import pyqtgraph as pg
 import PyTango
 
-
 # Scope plot widget
 class ScopePlotWidget(TaurusWidget):
     """A plot widget specifically for displaying oscilloscope waveforms."""
@@ -150,6 +149,6 @@ class ScopePlotWidget(TaurusWidget):
         """Update a given waveform on the graph."""
         wf = str(wf)
         if wf in self.waveform_plots and wf in self._waveform_data:
-            if len(self._waveform_data[wf]):
-                self.waveform_plots[wf].setData(y=self._waveform_data[wf],
-                                                x=self._timescale_data)
+            data = self._waveform_data[wf]
+            if data is not None and len(data):
+                self.waveform_plots[wf].setData(y=data, x=self._timescale_data)
