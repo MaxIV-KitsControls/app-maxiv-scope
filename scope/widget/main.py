@@ -10,12 +10,13 @@ from taurus.qt import QtGui, QtCore
 from taurus.qt.qtgui.container import TaurusWidget, TaurusScrollArea
 
 # Widget imports
-from rtmscope.widget.base import FilteredTaurusCommandsForm
-from rtmscope.widget.base import NoButtonTaurusForm
-from rtmscope.widget.base import PatchedTaurusValueCheckBox
-from rtmscope.widget.base import PatchedTaurusPlot
-try: from rtmscope.widget.scopeplot import ScopePlotWidget
-except ImportError:  ScopePlotWidget = None
+from scope.widget.base import FilteredTaurusCommandsForm
+from scope.widget.base import NoButtonTaurusForm
+from scope.widget.base import PatchedTaurusValueCheckBox
+from scope.widget.base import PatchedTaurusPlot
+try: from scope.widget.scopeplot import ScopePlotWidget
+except ImportError as e: ScopePlotWidget = None
+
 
 # Main class
 class ScopeWidget(TaurusWidget):

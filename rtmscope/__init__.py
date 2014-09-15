@@ -1,1 +1,0 @@
-from rtmscope.config import *

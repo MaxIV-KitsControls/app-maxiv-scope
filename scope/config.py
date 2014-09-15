@@ -87,7 +87,7 @@ for device in device_list:
     globals()[name] = PanelDescription(
         'Scope {}'.format(device),
         classname = 'ScopeWidget',
-        modulename="rtmscope.widget",
+        modulename="scope.widget",
         floating = False,
         model=device,
         )

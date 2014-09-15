@@ -1,0 +1,1 @@
+from scope.config import *

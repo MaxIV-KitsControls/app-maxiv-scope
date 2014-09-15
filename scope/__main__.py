@@ -3,7 +3,7 @@
 # Imports
 from taurus.qt.qtgui.application import TaurusApplication
 from taurus.qt.qtgui.taurusgui import TaurusGui
-from rtmscope import config
+from scope import config
 import sys
 
 # Constants
