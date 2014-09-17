@@ -37,7 +37,10 @@ user will find when launching the GUI for the first time.
 #==============================================================================
 # Import section. You probably want to keep this line. Don't edit this block
 # unless you know what you are doing
-from taurus.qt.qtgui.taurusgui.utils import PanelDescription, Qt_Qt, ExternalApp, ToolBarDescription, AppletDescription
+from taurus.qt.qtgui.taurusgui.utils import PanelDescription, Qt_Qt 
+from taurus.qt.qtgui.taurusgui.utils import ExternalApp, ToolBarDescription
+from taurus.qt.qtgui.taurusgui.utils import AppletDescription
+from PyTango import Database 
 # (end of import section)
 #==============================================================================
 
@@ -78,14 +81,14 @@ INSTRUMENTS_FROM_POOL = False
 # for the gblgui_utils module)
 #===============================================================================
 
-device_list = ['maxiv/dev/scope',
-               'maxiv/dev/scope2',
-               'maxiv/dev/scope3',]
+class_name = "RohdeSchwarzRTM"
+db = Database()
+device_list = db.get_device_exported_for_class(class_name)
 
 for device in device_list:
-    name = "pannel_{}".format(device.replace("/","_"))
+    name = "pannel_{0}".format(device.replace("/","_"))
     globals()[name] = PanelDescription(
-        'Scope {}'.format(device),
+        'Scope {0}'.format(device),
         classname = 'ScopeWidget',
         modulename="scope.widget",
         floating = False,
