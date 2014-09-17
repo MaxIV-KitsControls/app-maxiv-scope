@@ -3,10 +3,10 @@
 # Imports
 from taurus.qt.qtgui.application import TaurusApplication
 from taurus.qt.qtgui.taurusgui import TaurusGui
-from scope import config
 import sys
 
 # Constants
+MODULE_NAME = "scope"
 PERIOD_ARG = "--taurus-polling-period="
 PERIOD = 100
 
@@ -19,6 +19,6 @@ else:
     
 # Run
 app = TaurusApplication() 
-gui = TaurusGui(confname=config.__file__)
+gui = TaurusGui(confname=MODULE_NAME)
 gui.show()
-app.exec_() 
+app.exec_()
