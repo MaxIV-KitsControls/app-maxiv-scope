@@ -17,12 +17,16 @@ from scope.widget.base import PatchedTaurusPlot
 try: from scope.widget.scopeplot import ScopePlotWidget
 except ImportError as e: ScopePlotWidget = None
 
+# Apply patch
+from scope.widget.patch import check_and_patch
+check_and_patch(True)
 
 # Main class
 class ScopeWidget(TaurusWidget):
     """Main widget for the RTM scope."""
 
     channels = range(1,5)
+    expert = False
     
     def __init__(self, *args, **kwargs):
         """Create inner widgets and set the layout."""
@@ -30,8 +34,8 @@ class ScopeWidget(TaurusWidget):
         # Create layout
         self.setLayout(QtGui.QGridLayout())
         # Create widgets
-        self.exec_dialog = self.build_exec_dialog()
         self.state_widget = self.build_state_widget()
+        self.exec_dialog = self.build_exec_dialog() if self.expert else None
         self.command_widget = self.build_command_widget(self.exec_dialog)
         self.plot_widget = self.build_plot_widget()
         self.channel_widget = self.build_channel_widget()
@@ -66,9 +70,10 @@ class ScopeWidget(TaurusWidget):
         ignore = ["execcommand"]
         widget = FilteredTaurusCommandsForm(parent=self, ignore=ignore)
         widget.useParentModel = True
-        widget.exec_button = self.build_exec_button(dialog)
-        widget.layout().addWidget(widget.exec_button)
-        widget.layout().setStretch(0,1)
+        if dialog:
+            widget.exec_button = self.build_exec_button(dialog)
+            widget.layout().addWidget(widget.exec_button)
+            widget.layout().setStretch(0,1)
         return widget
 
     def build_exec_button(self, dialog):
