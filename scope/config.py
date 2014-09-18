@@ -81,7 +81,7 @@ INSTRUMENTS_FROM_POOL = False
 # for the gblgui_utils module)
 #===============================================================================
 
-class_name = "RohdeSchwarzRTM"
+class_name = "RohdeSchwarzRT*"
 db = Database()
 device_list = db.get_device_exported_for_class(class_name)
 

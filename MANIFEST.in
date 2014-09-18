@@ -1,1 +1,2 @@
 include scope/images/*
+include *.desktop

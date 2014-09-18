@@ -10,6 +10,7 @@ setup(name = "taurusgui-scope",
       packages = find_packages(),
       include_package_data=True,
       package_data={'': ['*.png']},
-      scripts = ['scripts/Scope']
+      data_files=[('/usr/share/applications', ['maxiv-scope.desktop'])],
+      scripts = ['scripts/ctscope']
      )
 

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=MAX IV Scopes
+Exec=ctscope
+Type=Application
+Categories=MAXIV;Science;
+Comment=Viewer for RTM and RTO scopes
+Terminal=false
