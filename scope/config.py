@@ -81,7 +81,10 @@ INSTRUMENTS_FROM_POOL = False
 # for the gblgui_utils module)
 #===============================================================================
 
-class_name = "RohdeSchwarzRT*"
+class_name = "RohdeSchwarzRTM" # RTM Scopes
+#class_name = "RohdeSchwarzRTO" # RTO Scopes
+#class_name = "RohdeSchwarzRT*" # RTM and RTO
+
 db = Database()
 device_list = db.get_device_exported_for_class(class_name)
 
