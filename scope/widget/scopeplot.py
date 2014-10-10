@@ -152,5 +152,6 @@ class ScopePlotWidget(TaurusWidget):
             data = self._waveform_data[wf]
             ydata = data if data is not None else []
             xdata = self._timescale_data if len(ydata) else []
-            self.waveform_plots[wf].setData(y=ydata, x=xdata)
+            if len(ydata) == len(xdata):
+                self.waveform_plots[wf].setData(y=ydata, x=xdata)
                     

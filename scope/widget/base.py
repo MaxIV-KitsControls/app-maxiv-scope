@@ -83,7 +83,8 @@ class PatchedTaurusValueCheckBox(TaurusValueCheckBox):
         res = TaurusValueCheckBox.getModelObj(self)
         if res is not None:
             value = res.getValueObj()
-            value.w_value = value.value
+            if value:
+                value.w_value = value.value
         return res
  
 class NoButtonTaurusForm(TaurusForm): 
