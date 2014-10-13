@@ -169,7 +169,7 @@ class ScopeWidget(TaurusScrollArea):
         widget.useParentModel = True
         model_func = 'StateCh{0}'.format
         widget.model = [model_func(i) for i in self.channels]
-        widget.setMinimumSize(200,0)
+        widget.setMinimumSize(205,0)
         for item in widget:
             item.setWriteWidgetClass(PatchedTaurusValueCheckBox)
             item.setReadWidgetClass(None) 
