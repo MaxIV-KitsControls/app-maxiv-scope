@@ -22,15 +22,16 @@ from scope.widget.patch import check_and_patch
 check_and_patch(True)
 
 # Main class
-class ScopeWidget(TaurusWidget):
+class ScopeWidget(TaurusScrollArea):
     """Main widget for the RTM scope."""
 
     channels = range(1,5)
-    expert = False
+    expert = True
     
     def __init__(self, *args, **kwargs):
         """Create inner widgets and set the layout."""
-        TaurusWidget.__init__(self, *args, **kwargs)
+        TaurusScrollArea.__init__(self, *args, **kwargs)
+        self.setFrameShape(self.NoFrame)
         # Create layout
         self.setLayout(QtGui.QGridLayout())
         # Create widgets
@@ -39,26 +40,56 @@ class ScopeWidget(TaurusWidget):
         self.command_widget = self.build_command_widget(self.exec_dialog)
         self.plot_widget = self.build_plot_widget()
         self.channel_widget = self.build_channel_widget()
-        self.range_widget = self.build_range_widget()
-        self.position_widget = self.build_position_widget()
-        self.scale_widget = self.build_scale_widget()
+        self.tab_widget = self.build_tab_widget()
         # Add widget
-        self.layout().addWidget(self.plot_widget,     0, 0, 5, 1)
+        self.layout().addWidget(self.plot_widget,     0, 0, 3, 1)
         self.layout().addWidget(self.state_widget,    0, 1, 1, 2)
         self.layout().addWidget(self.command_widget,  1, 1, 1, 1)
         self.layout().addWidget(self.channel_widget,  1, 2, 1, 1)
-        self.layout().addWidget(self.range_widget,    2, 1, 1, 2)
-        self.layout().addWidget(self.position_widget, 3, 1, 1, 2)
-        self.layout().addWidget(self.scale_widget,    4, 1, 1, 2)
+        self.layout().addWidget(self.tab_widget,      2, 1, 1, 2)
         # Adjust stretch
-        self.layout().setColumnStretch(0,2)
-        self.layout().setColumnStretch(1,1)
-        self.layout().setColumnStretch(2,0)
-        self.layout().setRowStretch(1,0)
+        self.layout().setColumnStretch(0,4)
+        self.layout().setColumnStretch(1,2)
+        self.layout().setColumnStretch(2,1)
+        self.layout().setRowStretch(0,0)
         self.layout().setRowStretch(1,3)
-        self.layout().setRowStretch(2,0)
-        self.layout().setRowStretch(3,2)
-        self.layout().setRowStretch(4,2)
+        self.layout().setRowStretch(2,5)
+
+    def build_tab_widget(self):
+        widget = QtGui.QTabWidget(parent=self)
+        widget.setTabPosition(widget.South)
+        # First tab
+        tab = QtGui.QWidget(parent=self)
+        tab.setLayout(QtGui.QVBoxLayout())
+        self.position_widget = self.build_position_widget()
+        self.scale_widget = self.build_scale_widget()
+        tab.layout().addWidget(self.position_widget)
+        tab.layout().addWidget(self.scale_widget)
+        tab.layout().setContentsMargins(0,0,0,0)
+        tab.layout().setSpacing(0)
+        widget.addTab(tab, "Channel")
+        # Second tab
+        tab = QtGui.QWidget(parent=self)
+        tab.setLayout(QtGui.QVBoxLayout())
+        self.time_widget = self.build_time_widget()
+        tab.layout().addWidget(self.time_widget)
+        tab.layout().setContentsMargins(0,0,0,0)
+        tab.layout().setSpacing(0)
+        widget.addTab(tab, u"Time")
+        # Third tab
+        tab = QtGui.QWidget(parent=self)
+        tab.setLayout(QtGui.QVBoxLayout())
+        self.trigger_widget = self.build_trigger_widget()
+        self.level_widget = self.build_level_widget()
+        tab.layout().addWidget(self.trigger_widget)
+        tab.layout().addWidget(self.level_widget)
+        tab.layout().setStretch(0,2)
+        tab.layout().setStretch(1,5)
+        tab.layout().setContentsMargins(0,0,0,0)
+        tab.layout().setSpacing(0)
+        widget.addTab(tab, u"Trigger")
+        # Return
+        return widget
 
     def build_state_widget(self):
         widget = NoButtonTaurusForm(parent=self)
@@ -67,18 +98,21 @@ class ScopeWidget(TaurusWidget):
         return widget
 
     def build_command_widget(self, dialog):
-        ignore = ["execcommand"]
+        ignore = ["execcommand", "autoset"]
         widget = FilteredTaurusCommandsForm(parent=self, ignore=ignore)
         widget.useParentModel = True
         if dialog:
             widget.exec_button = self.build_exec_button(dialog)
             widget.layout().addWidget(widget.exec_button)
             widget.layout().setStretch(0,1)
+            widget.layout().setStretch(1,0)
         return widget
 
     def build_exec_button(self, dialog):
         # Frame
-        widget = QtGui.QFrame()
+        CustomArea = type("CustomArea", (TaurusScrollArea,), {})
+        CustomArea.minimumSizeHint = lambda self: QtCore.QSize(0,0)
+        widget = CustomArea()
         widget.setFrameShape(widget.Panel)
         widget.setFrameShadow(widget.Sunken)
         layout = QtGui.QHBoxLayout()
@@ -141,10 +175,23 @@ class ScopeWidget(TaurusWidget):
             item.setReadWidgetClass(None) 
         return widget
 
-    def build_range_widget(self):
+    def build_time_widget(self):
         widget = NoButtonTaurusForm(parent=self)
         widget.useParentModel = True
-        widget.model = ['HRange']
+        widget.model = ['HRange', 'HPosition']
+        return widget
+
+    def build_trigger_widget(self):
+        widget = NoButtonTaurusForm(parent=self)
+        widget.useParentModel = True
+        widget.model = ['TriggerChannel', 'TriggerSlope']
+        return widget
+
+    def build_level_widget(self):
+        widget = NoButtonTaurusForm(parent=self)
+        widget.useParentModel = True
+        widget.model = ['TriggerLevel{0:1d}'.format(channel)
+                        for channel in range(1,6)]
         return widget
 
     def build_position_widget(self):

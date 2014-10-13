@@ -32,6 +32,12 @@ class FilteredTaurusCommandsForm(TaurusCommandsForm):
             filt = lambda arg: arg.cmd_name.lower() in self.include
         self.setViewFilters([filt])
 
+    def parentModelChanged(self, model):
+        # I have no idea why, but this actually fixes a taurus bug.
+        # The buttons wouldn't appear on first parentModelChanged event.
+        if not self.model: __import__("time").sleep(0.01)
+        TaurusCommandsForm.parentModelChanged(self, model)
+
 
 class NoButtonTaurusValuesTable(TaurusValuesTable):
     """Taurus values table without the buttons."""
