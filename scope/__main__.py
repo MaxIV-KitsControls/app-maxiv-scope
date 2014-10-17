@@ -8,7 +8,7 @@ import sys
 # Constants
 MODULE_NAME = "scope"
 PERIOD_ARG = "--taurus-polling-period="
-PERIOD = 100
+PERIOD = 500
 
 # Argument formating
 for arg in sys.argv:

@@ -10,6 +10,15 @@ from taurus.qt.qtgui.plot import TaurusXValues
 
 from PyQt4.QtGui import QDialogButtonBox, QAbstractItemView
 
+# Patch
+#from taurus.qt.qtgui import input 
+#class TaurusValueSpinBox(input.TaurusValueSpinBox):
+#    def __init__(self, *args, **kwargs):
+#        super(TaurusValueSpinBox, self).__init__(self, *args, **kwargs)
+#        raise
+#        self.setForcedApply(True)
+#input.TaurusValueSpinBox = TaurusValueSpinBox
+
 class FilteredTaurusCommandsForm(TaurusCommandsForm):
     """Taurus commands forms that filters some of the commands."""
 
@@ -99,6 +108,13 @@ class NoButtonTaurusForm(TaurusForm):
     def __init__(self, *args, **kwargs):
         kwargs['buttons'] = QDialogButtonBox.NoButton
         TaurusForm.__init__(self, *args, **kwargs)
+
+    def event(self, event):
+        # Lame. Should find a better place for this piece of code.
+        for item in self:
+            widget = item.writeWidget()
+            if widget: widget.setForcedApply(True)
+        return TaurusForm.event(self, event) 
 
 class PatchedTaurusPlot(TaurusPlot):
     """Patched Taurus plot."""
