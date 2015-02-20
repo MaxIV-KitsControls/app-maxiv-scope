@@ -1,12 +1,12 @@
 """Module to run the taurus GUI."""
 
 # Imports
+import sys
 from taurus.qt.qtgui.application import TaurusApplication
 from taurus.qt.qtgui.taurusgui import TaurusGui
-import sys
 
 # Constants
-MODULE_NAME = "scope"
+MODULE_NAME = "scopeapp"
 PERIOD_ARG = "--taurus-polling-period="
 PERIOD = 500
 

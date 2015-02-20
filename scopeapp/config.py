@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-# Version 2.2.3 14/4/2013 Paul Bell
-#
 #############################################################################
 ##
 ## This file is part of Taurus, a Tango User Interface Library
@@ -37,10 +35,10 @@ user will find when launching the GUI for the first time.
 #==============================================================================
 # Import section. You probably want to keep this line. Don't edit this block
 # unless you know what you are doing
+from scopeapp.dialog import parse_argv_and_get_device_list
 from taurus.qt.qtgui.taurusgui.utils import PanelDescription, Qt_Qt 
 from taurus.qt.qtgui.taurusgui.utils import ExternalApp, ToolBarDescription
 from taurus.qt.qtgui.taurusgui.utils import AppletDescription
-from PyTango import Database 
 # (end of import section)
 #==============================================================================
 
@@ -48,7 +46,6 @@ from PyTango import Database
 #===============================================================================
 # General info.
 #===============================================================================
-GUI_NAME = 'scope'
 ORGANIZATION = 'MAXIV'
 
 #===============================================================================
@@ -81,14 +78,11 @@ INSTRUMENTS_FROM_POOL = False
 # for the gblgui_utils module)
 #===============================================================================
 
-class_name = "RohdeSchwarzRTM" # RTM Scopes
-#class_name = "RohdeSchwarzRTO" # RTO Scopes
-#class_name = "RohdeSchwarzRT*" # RTM and RTO
+CLASSES = "RTMScope", "RTOScope", "LecroyScope"
+DEVICES, SERVER = parse_argv_and_get_device_list(CLASSES)
+GUI_NAME = SERVER.replace("/", "-")
 
-db = Database()
-device_list = db.get_device_exported_for_class(class_name)
-
-for device in device_list:
+for device in DEVICES:
     name = "pannel_{0}".format(device.replace("/","_"))
     globals()[name] = PanelDescription(
         'Scope {0}'.format(device),

@@ -1,2 +1,2 @@
 #!/bin/bash
-python -m scope.__main__
+python -m scopeapp.__main__ $*

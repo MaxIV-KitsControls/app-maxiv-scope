@@ -10,15 +10,17 @@ from taurus.qt import QtGui, QtCore
 from taurus.qt.qtgui.container import TaurusWidget, TaurusScrollArea
 
 # Widget imports
-from scope.widget.base import FilteredTaurusCommandsForm
-from scope.widget.base import NoButtonTaurusForm
-from scope.widget.base import PatchedTaurusValueCheckBox
-from scope.widget.base import PatchedTaurusPlot
-try: from scope.widget.scopeplot import ScopePlotWidget
-except ImportError as e: ScopePlotWidget = None
+from scopeapp.widget.base import FilteredTaurusCommandsForm
+from scopeapp.widget.base import NoButtonTaurusForm
+from scopeapp.widget.base import PatchedTaurusValueCheckBox
+from scopeapp.widget.base import PatchedTaurusPlot
+try: 
+    from scopeapp.widget.scopeplot import ScopePlotWidget
+except ImportError as e: 
+    ScopePlotWidget = None
 
 # Apply patch
-from scope.widget.patch import check_and_patch
+from scopeapp.widget.patch import check_and_patch
 check_and_patch(True)
 
 # Main class
@@ -98,7 +100,7 @@ class ScopeWidget(TaurusScrollArea):
         return widget
 
     def build_command_widget(self, dialog):
-        ignore = ["execcommand", "autoset"]
+        ignore = ["execcommand"]
         widget = FilteredTaurusCommandsForm(parent=self, ignore=ignore)
         widget.useParentModel = True
         if dialog:
@@ -156,18 +158,18 @@ class ScopeWidget(TaurusScrollArea):
         return widget
 
     def build_taurusplot_widget(self):
-        widget = PatchedTaurusPlot(parent=self, scale='/TimeScale')
+        widget = PatchedTaurusPlot(parent=self, scale='/TimeBase')
         widget.useParentModel = True
         widget.setAxisAutoScale(False)
         widget.setAxisScale(widget.yLeft, -4, 4)
-        model_func = '/WaveformDataCh{0}'.format
+        model_func = '/RawWaveform{0}'.format
         widget.model = [model_func(i) for i in self.channels]
         return widget
 
     def build_channel_widget(self):
         widget = NoButtonTaurusForm(parent=self)
         widget.useParentModel = True
-        model_func = 'StateCh{0}'.format
+        model_func = 'ChannelEnabled{0}'.format
         widget.model = [model_func(i) for i in self.channels]
         widget.setMinimumSize(205,0)
         for item in widget:
@@ -178,13 +180,13 @@ class ScopeWidget(TaurusScrollArea):
     def build_time_widget(self):
         widget = NoButtonTaurusForm(parent=self)
         widget.useParentModel = True
-        widget.model = ['HRange', 'HPosition']
+        widget.model = ['TimeRange', 'TimePosition']
         return widget
 
     def build_trigger_widget(self):
         widget = NoButtonTaurusForm(parent=self)
         widget.useParentModel = True
-        widget.model = ['TriggerChannel', 'TriggerSlope']
+        widget.model = ['TriggerSource', 'TriggerSlope']
         return widget
 
     def build_level_widget(self):
@@ -197,14 +199,14 @@ class ScopeWidget(TaurusScrollArea):
     def build_position_widget(self):
         widget = NoButtonTaurusForm(parent=self)
         widget.useParentModel = True
-        model_func = 'PositionCh{0}'.format
+        model_func = 'ChannelPosition{0}'.format
         widget.model = [model_func(i) for i in self.channels]
         return widget
 
     def build_scale_widget(self):
         widget = NoButtonTaurusForm(parent=self)
         widget.useParentModel = True
-        model_func = 'VScaleCh{0}'.format
+        model_func = 'ChannelScale{0}'.format
         widget.model = [model_func(i) for i in self.channels]
         return widget
         
