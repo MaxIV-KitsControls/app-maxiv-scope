@@ -6,7 +6,7 @@ from taurus.qt.qtgui.application import TaurusApplication
 from taurus.qt.qtgui.taurusgui import TaurusGui
 
 # Constants
-MODULE_NAME = "scopeapp"
+MODULE_NAME = "scopegui"
 PERIOD_ARG = "--taurus-polling-period="
 PERIOD = 500
 

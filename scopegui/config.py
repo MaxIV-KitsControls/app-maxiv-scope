@@ -35,7 +35,7 @@ user will find when launching the GUI for the first time.
 #==============================================================================
 # Import section. You probably want to keep this line. Don't edit this block
 # unless you know what you are doing
-from scopeapp.dialog import parse_argv_and_get_device_list
+from scopegui.dialog import parse_argv_and_get_device_list
 from taurus.qt.qtgui.taurusgui.utils import PanelDescription, Qt_Qt 
 from taurus.qt.qtgui.taurusgui.utils import ExternalApp, ToolBarDescription
 from taurus.qt.qtgui.taurusgui.utils import AppletDescription
@@ -87,7 +87,7 @@ for device in DEVICES:
     globals()[name] = PanelDescription(
         'Scope {0}'.format(device),
         classname = 'ScopeWidget',
-        modulename="scope.widget",
+        modulename="scopegui.widget",
         floating = False,
         model=device,
         )

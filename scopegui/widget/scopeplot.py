@@ -15,6 +15,19 @@ class ScopePlotWidget(TaurusWidget):
     trigger = QtCore.pyqtSignal(str)
     channel_colors = ("FF0", "0F0", "F80", "44F")
 
+    channels = range(1, 5)
+    timebase_name = "TimeBase"
+    waveform_basename = "RawWaveform"
+    enabled_basename = "ChannelEnabled"
+
+    @property
+    def waveform_names(self):
+        return [self.waveform_basename + str(i) for i in self.channels]
+
+    @property
+    def enabled_names(self):
+        return [self.enabled_basename + str(i) for i in self.channels]
+
     # Initialize
     
     def __init__(self, title=None, parent=None, y=False):
@@ -89,8 +102,8 @@ class ScopePlotWidget(TaurusWidget):
         if not self._scope:
             return
         # Wavefroms
-        for i in xrange(4):
-            wf = "WaveformDataCh%d" % (i + 1)
+        for i in range(4):
+            wf = self.waveform_names[i]
             attr = self._waveform_attrs[wf] = self._scope.getAttribute(wf)
             attr.addListener(self._handle_waveform)
             p = self.waveform_plots[wf] = pg.PlotDataItem(
@@ -98,11 +111,11 @@ class ScopePlotWidget(TaurusWidget):
             self.plotitem.addItem(p)
             self.legend.addItem(p, i + 1)
 
-            chstate = "StateCh%d" % (i + 1)
+            chstate = self.enabled_names[i]
             s = self._scope.getAttribute(chstate)
             s.addListener(self._handle_state)
         # Timescale
-        attr = self._scope.getAttribute("TimeScale")
+        attr = self._scope.getAttribute(self.timebase_name)
         attr.addListener(self._handle_timescale)
 
     # Semi private methods
@@ -112,7 +125,7 @@ class ScopePlotWidget(TaurusWidget):
         if (evt_type in (PyTango.EventType.PERIODIC_EVENT,
                          PyTango.EventType.CHANGE_EVENT) and evt_value):
             s = evt_value.value
-            wf = "WaveformDataCh%s" % evt_value.name[-1]  
+            wf = self.waveform_basename + evt_value.name[-1]
             if s:
                 self.plotitem.addItem(self.waveform_plots[wf])
             else:

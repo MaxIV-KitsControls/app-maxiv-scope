@@ -10,17 +10,17 @@ from taurus.qt import QtGui, QtCore
 from taurus.qt.qtgui.container import TaurusWidget, TaurusScrollArea
 
 # Widget imports
-from scopeapp.widget.base import FilteredTaurusCommandsForm
-from scopeapp.widget.base import NoButtonTaurusForm
-from scopeapp.widget.base import PatchedTaurusValueCheckBox
-from scopeapp.widget.base import PatchedTaurusPlot
+from scopegui.widget.base import FilteredTaurusCommandsForm
+from scopegui.widget.base import NoButtonTaurusForm
+from scopegui.widget.base import PatchedTaurusValueCheckBox
+from scopegui.widget.base import PatchedTaurusPlot
 try: 
-    from scopeapp.widget.scopeplot import ScopePlotWidget
+    from scopegui.widget.scopeplot import ScopePlotWidget
 except ImportError as e: 
     ScopePlotWidget = None
 
 # Apply patch
-from scopeapp.widget.patch import check_and_patch
+from scopegui.widget.patch import check_and_patch
 check_and_patch(True)
 
 # Main class
@@ -100,7 +100,7 @@ class ScopeWidget(TaurusScrollArea):
         return widget
 
     def build_command_widget(self, dialog):
-        ignore = ["execcommand"]
+        ignore = ["execute"]
         widget = FilteredTaurusCommandsForm(parent=self, ignore=ignore)
         widget.useParentModel = True
         if dialog:
@@ -123,7 +123,7 @@ class ScopeWidget(TaurusScrollArea):
         label.setAlignment(QtCore.Qt.AlignCenter)
         layout.addWidget(label)
         # Button
-        button = QtGui.QPushButton('ExecCommand')
+        button = QtGui.QPushButton('Execute commands')
         button.clicked.connect(dialog.show)
         layout.addWidget(button)
         # Layout
@@ -132,7 +132,7 @@ class ScopeWidget(TaurusScrollArea):
         return widget
 
     def build_exec_widget(self):
-        include = ["execcommand"]
+        include = ["execute"]
         widget = FilteredTaurusCommandsForm(include=include,
                                             show_output=True)
         widget.useParentModel = True
@@ -140,7 +140,7 @@ class ScopeWidget(TaurusScrollArea):
 
     def build_exec_dialog(self):
         dialog = QtGui.QDialog(self, flags=QtCore.Qt.Window)
-        dialog.setWindowTitle("ExecCommand")
+        dialog.setWindowTitle("Execute commands")
         layout = QtGui.QGridLayout()
         widget = self.build_exec_widget()
         layout.addWidget(widget)
@@ -218,5 +218,5 @@ if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     myapp = ScopeWidget()
     myapp.show()
-    myapp.setModel("maxiv/dev/scope")
+    myapp.setModel("maxiv/test/rtm")
     sys.exit(app.exec_())
