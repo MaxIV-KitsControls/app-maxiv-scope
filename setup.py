@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(name = "taurusgui-scope",
-      version = "3.0.7",
+      version = "3.0.8",
       description = "TaurusGUI for the different scopes",
       author = "Vincent MICHEL",
       license = "GPLv3",
