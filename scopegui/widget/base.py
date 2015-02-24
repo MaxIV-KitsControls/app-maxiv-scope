@@ -73,7 +73,7 @@ class TestTaurusPropTable(TaurusPropTable):
 
 class PatchedTaurusValueCheckBox(TaurusValueCheckBox):
     """Patched taurus value check box."""
-
+    
     def __init__(self, *args, **kwargs):
         TaurusValueCheckBox.__init__(self, *args, **kwargs)
         self.autoApply = True

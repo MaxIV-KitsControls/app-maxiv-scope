@@ -180,7 +180,7 @@ class ScopeWidget(TaurusScrollArea):
     def build_time_widget(self):
         widget = NoButtonTaurusForm(parent=self)
         widget.useParentModel = True
-        widget.model = ['TimeRange', 'TimePosition']
+        widget.model = ['TimeRange', 'TimePosition', 'RecordLength']
         return widget
 
     def build_trigger_widget(self):
