@@ -105,8 +105,8 @@ def choose_server(servers):
     If the user cancel the dialog, the program stops.
     """
     app = QApplication(sys.argv)
-    title = "Oven selection"
-    label = "Please select an oven server."
+    title = "Server selection"
+    label = "Please select a server."
     result, boolean = QInputDialog.getItem(None, title, label, 
                                            sorted(servers),
                                            editable=False)
