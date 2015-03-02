@@ -1,18 +1,20 @@
 """Contain a plot widget specifically for displaying oscilloscope waveforms."""
 
 # Imports
+from collections import defaultdict
 from taurus.qt.qtgui.panel import TaurusWidget
 from taurus.qt import QtGui, QtCore
 import pyqtgraph as pg
 import PyTango
+
 
 # Scope plot widget
 class ScopePlotWidget(TaurusWidget):
     """A plot widget specifically for displaying oscilloscope waveforms."""
 
     # Attributes
-    
-    trigger = QtCore.pyqtSignal(str)
+
+    refresh_rate = 30  # Hz
     channel_colors = ("FF0", "0F0", "F80", "44F")
 
     channels = range(1, 5)
@@ -29,7 +31,7 @@ class ScopePlotWidget(TaurusWidget):
         return [self.enabled_basename + str(i) for i in self.channels]
 
     # Initialize
-    
+
     def __init__(self, title=None, parent=None, y=False):
         """Initialize with a given title and parent widget."""
         TaurusWidget.__init__(self, parent)
@@ -49,7 +51,7 @@ class ScopePlotWidget(TaurusWidget):
         self.vb.setRange(yRange=(-5, 5), xRange=(-0.01, 0.01),
                          padding=0, disableAutoRange=True)
         self.vb.setMouseEnabled(x=False, y=False)
-        
+
         # Axes
         xaxis = self.plot.getAxis("bottom")
         xaxis.setLabel("Time", units="s")
@@ -81,18 +83,21 @@ class ScopePlotWidget(TaurusWidget):
         self.waveform_plots = {}
         self._waveform_attrs = {}
         self._waveform_data = {}
+        self._waveform_flag = defaultdict(bool)
         self._timescale_attr = None
         self._timescale_data = []
 
-        # Signals
-        self.trigger.connect(self._show_graph)
+        # Timer
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self._show_graph)
+        self.timer.start(1.0 / self.refresh_rate)
 
     # Overiding methods
-    
+
     def parentModelChanged(self, model):
         """Set the new model if using the parent model."""
         if self.useParentModel:
-            self.setModel(model)    
+            self.setModel(model)
 
     def setModel(self, scope):
         """Set the model from a given scope model name."""
@@ -142,7 +147,7 @@ class ScopePlotWidget(TaurusWidget):
         """Handle events from the channel waveforms."""
         if (evt_type in (PyTango.EventType.PERIODIC_EVENT,
                          PyTango.EventType.CHANGE_EVENT) and evt_value):
-            wfname = evt_value.name
+            wfname = str(evt_value.name)
             wfdata = evt_value.value
             self.set_waveform(wfname, wfdata)
 
@@ -156,15 +161,15 @@ class ScopePlotWidget(TaurusWidget):
     def set_waveform(self, wfname, wfdata):
         """Apply given data to a given waveform."""
         self._waveform_data[wfname] = wfdata
-        self.trigger.emit(wfname)
+        self._waveform_flag[wfname] = True
 
-    def _show_graph(self, wf):
+    def _show_graph(self, *args):
         """Update a given waveform on the graph."""
-        wf = str(wf)
-        if wf in self.waveform_plots and wf in self._waveform_data:
-            data = self._waveform_data[wf]
-            ydata = data if data is not None else []
-            xdata = self._timescale_data if len(ydata) else []
-            if len(ydata) == len(xdata):
-                self.waveform_plots[wf].setData(y=ydata, x=xdata)
-                    
+        for wf, flag in self._waveform_flag.items():
+            if flag and wf in self.waveform_plots:
+                self._waveform_flag[wf] = False
+                data = self._waveform_data[wf]
+                ydata = data if data is not None else []
+                xdata = self._timescale_data if len(ydata) else []
+                if len(ydata) == len(xdata):
+                    self.waveform_plots[wf].setData(y=ydata, x=xdata)
