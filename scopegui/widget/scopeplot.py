@@ -14,7 +14,7 @@ class ScopePlotWidget(TaurusWidget):
 
     # Attributes
 
-    refresh_rate = 30  # Hz
+    refresh_rate = 20  # Hz
     channel_colors = ("FF0", "0F0", "F80", "44F")
 
     channels = range(1, 5)
@@ -90,7 +90,7 @@ class ScopePlotWidget(TaurusWidget):
         # Timer
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self._show_graph)
-        self.timer.start(1.0 / self.refresh_rate)
+        self.timer.start(1000.0 / self.refresh_rate)
 
     # Overiding methods
 
