@@ -2,3 +2,4 @@
 
 # Imports
 from scopegui.config import *
+from scopegui.main import main

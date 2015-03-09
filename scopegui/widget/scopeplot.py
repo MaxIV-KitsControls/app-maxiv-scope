@@ -14,7 +14,7 @@ class ScopePlotWidget(TaurusWidget):
 
     # Attributes
 
-    refresh_rate = 20  # Hz
+    refresh_rate = 10 # Hz
     channel_colors = ("FF0", "0F0", "F80", "44F")
 
     channels = range(1, 5)
