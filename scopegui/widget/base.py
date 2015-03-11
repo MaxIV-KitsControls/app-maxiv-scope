@@ -10,11 +10,12 @@ from taurus.qt.qtgui.plot import TaurusXValues
 
 from PyQt4.QtGui import QDialogButtonBox, QAbstractItemView
 
+
 class FilteredTaurusCommandsForm(TaurusCommandsForm):
     """Taurus commands forms that filters some of the commands."""
 
     base_ignore = ["state", "status"]
-    
+
     def __init__(self, *args, **kwargs):
         # Get keywords
         self.ignore = self.base_ignore
@@ -32,12 +33,13 @@ class FilteredTaurusCommandsForm(TaurusCommandsForm):
             filt = lambda arg: arg.cmd_name.lower() in self.include
         self.setViewFilters([filt])
 
-    def parentModelChanged(self, model):
-        # I have no idea why, but this actually fixes a taurus bug.
-        # The buttons wouldn't appear on first parentModelChanged event.
-        if not self.model: __import__("time").sleep(0.01)
-        TaurusCommandsForm.parentModelChanged(self, model)
-
+    def _updateCommandWidgets(self, *args):
+        # Hack: Forced update of the software state
+        try:
+            self.getModelObj().getSWState(cache=False)
+        except AttributeError:
+            pass
+        return TaurusCommandsForm._updateCommandWidgets(self, *args)
 
 class NoButtonTaurusValuesTable(TaurusValuesTable):
     """Taurus values table without the buttons."""
@@ -51,14 +53,14 @@ class NoButtonTaurusValuesTable(TaurusValuesTable):
         self._tableView.horizontalHeader().setStretchLastSection(True)
         self._tableView.horizontalHeader().hide()
         self._tableView.resizeColumnsToContents = lambda *args: None
-        
+
 
 class NoButtonNorIndexTaurusValuesTable(NoButtonTaurusValuesTable):
     """Taurus values table without the buttons."""
 
     def __init__(self, *args, **kwargs):
         NoButtonTaurusValuesTable.__init__(self, *args, **kwargs)
-        self._tableView.verticalHeader().hide() 
+        self._tableView.verticalHeader().hide()
 
 class TestTaurusPropTable(TaurusPropTable):
     """Taurus values table without the buttons."""
@@ -67,13 +69,13 @@ class TestTaurusPropTable(TaurusPropTable):
         TaurusPropTable.__init__(self, *args, **kwargs)
         self.horizontalHeader().setStretchLastSection(True)
         self.verticalHeader().hide()
-        self.resizeColumnsToContents = lambda *args: None 
+        self.resizeColumnsToContents = lambda *args: None
         self.setModel = self.setTable
 
 
 class PatchedTaurusValueCheckBox(TaurusValueCheckBox):
     """Patched taurus value check box."""
-    
+
     def __init__(self, *args, **kwargs):
         TaurusValueCheckBox.__init__(self, *args, **kwargs)
         self.autoApply = True
@@ -92,10 +94,11 @@ class PatchedTaurusValueCheckBox(TaurusValueCheckBox):
             if value:
                 value.w_value = value.value
         return res
- 
-class NoButtonTaurusForm(TaurusForm): 
+
+
+class NoButtonTaurusForm(TaurusForm):
     """Taurus form without buttons."""
-    
+
     def __init__(self, *args, **kwargs):
         kwargs['buttons'] = QDialogButtonBox.NoButton
         TaurusForm.__init__(self, *args, **kwargs)
@@ -105,7 +108,8 @@ class NoButtonTaurusForm(TaurusForm):
         for item in self:
             widget = item.writeWidget()
             if widget: widget.setForcedApply(True)
-        return TaurusForm.event(self, event) 
+        return TaurusForm.event(self, event)
+
 
 class PatchedTaurusPlot(TaurusPlot):
     """Patched Taurus plot."""
@@ -133,7 +137,7 @@ class PatchedTaurusPlot(TaurusPlot):
         try: len(value)
         except: value = []
         return value
-            
+
     def getModelObj(self, idx=None):
         """Patch to use the parent model."""
         if idx is None:
@@ -150,11 +154,11 @@ class PatchedTaurusPlot(TaurusPlot):
         TaurusPlot.parentModelChanged(self, parentmodel_name)
         self.scale.setModelCheck(self.scale.getModel(), False)
         self.registerCurves()
-            
+
 
 class PatchedTaurusXValues(TaurusXValues):
     """Patched version of the taurus plot."""
-    
+
     def __init__(self, name, parent=None):
         """Register the parent as the taurus parent."""
         TaurusXValues.__init__(self, name, parent)
@@ -163,6 +167,3 @@ class PatchedTaurusXValues(TaurusXValues):
     def getParentTaurusComponent(self):
         """Return the taurus parent."""
         return self.parent
-
-
-

@@ -35,8 +35,8 @@ class ScopeWidget(TaurusScrollArea):
     def __init__(self, *args, **kwargs):
         """Create inner widgets and set the layout."""
         TaurusScrollArea.__init__(self, *args, **kwargs)
-        self.setFrameShape(self.NoFrame)
         # Create layout
+        self.setFrameShape(self.NoFrame)
         self.setLayout(QtGui.QGridLayout())
         # Create widgets
         self.state_widget = self.build_state_widget()
