@@ -1,6 +1,7 @@
 """Module to run the taurus GUI."""
 
 # Imports
+import os
 import sys
 from PyQt4 import QtGui
 from functools import partial
@@ -9,12 +10,15 @@ from taurus.qt.qtgui.application import TaurusApplication
 from scopegui.dialog import parse_argv_and_get_device_list
 from scopegui.widget import ScopeWidget
 
-
 # Constants
 CLASSES = "RTMScope", "RTOScope", "LecroyScope"
 MODULE_NAME = "scopegui"
 PERIOD_ARG = "--taurus-polling-period="
 PERIOD = 500
+
+# Configuration
+ORGANIZATION = 'MAXIV'
+CUSTOM_LOGO = 'images/maxivlogo.png'
 
 
 # Callback for actions
@@ -63,7 +67,10 @@ def create_panels(gui, devices):
 def set_application_name(gui, app_name):
     """Set a given application name."""
     gui.setWindowTitle(app_name)
+    path = os.path.join(os.path.dirname(__file__), CUSTOM_LOGO)
+    gui.setWindowIcon(QtGui.QIcon(path))
     TaurusApplication.instance().setApplicationName(app_name)
+    TaurusApplication.instance().setOrganizationName(ORGANIZATION)
     TaurusApplication.instance().basicConfig()
 
 
@@ -75,8 +82,8 @@ def main(period=PERIOD):
     devices, server = parse_argv_and_get_device_list(CLASSES)
     app_name = server.replace("/", "-")
     # Create GUI
-    app = TaurusApplication()
-    gui = TaurusGui(confname=MODULE_NAME)
+    app = TaurusApplication(app_name=app_name)
+    gui = TaurusGui()
     set_application_name(gui, app_name)
     create_panels(gui, devices)
     # Setup GUI
