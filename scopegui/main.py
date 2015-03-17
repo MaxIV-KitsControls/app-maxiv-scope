@@ -86,9 +86,13 @@ def main(period=PERIOD):
     gui = TaurusGui()
     set_application_name(gui, app_name)
     create_panels(gui, devices)
-    # Setup GUI
+    # Hide toolbars
     gui.jorgsBar.hide()
     gui.statusBar().hide()
+    gui.panelsToolBar.hide()
+    gui.perspectivesToolBar.hide()
+    gui.setLockView(True)
+    # Setup display buttons
     setup_display_action(gui, "Main panel", "MainPanel")
     gui.quickAccessToolBar.addSeparator()
     setup_display_action(gui, "Settings panel", "SettingsPanel")
