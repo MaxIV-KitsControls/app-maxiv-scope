@@ -88,6 +88,7 @@ def main(period=PERIOD):
     create_panels(gui, devices)
     # Setup GUI
     gui.jorgsBar.hide()
+    gui.statusBar().hide()
     setup_display_action(gui, "Main panel", "MainPanel")
     gui.quickAccessToolBar.addSeparator()
     setup_display_action(gui, "Settings panel", "SettingsPanel")
