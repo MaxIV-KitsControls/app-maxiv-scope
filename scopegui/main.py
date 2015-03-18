@@ -18,7 +18,20 @@ PERIOD = 500
 
 # Configuration
 ORGANIZATION = 'MAXIV'
-CUSTOM_LOGO = 'images/maxivlogo.png'
+LOGO = 'images/maxivlogo.png'
+
+
+# Create application
+def create_application(app_name, organization, logo):
+    """Return an (application, taurusgui) pair."""
+    app = TaurusApplication(app_name=app_name)
+    gui = TaurusGui()
+    gui.show()
+    basedir = os.path.dirname(__file__)
+    path = os.path.join(basedir, logo)
+    gui.setWindowIcon(QtGui.QIcon(path))
+    app.setOrganizationName(organization)
+    return app, gui
 
 
 # Callback for actions
@@ -63,17 +76,6 @@ def create_panels(gui, devices):
         gui.getPanel(name).widget().setModel(device)
 
 
-# Set application name
-def set_application_name(gui, app_name):
-    """Set a given application name."""
-    gui.setWindowTitle(app_name)
-    path = os.path.join(os.path.dirname(__file__), CUSTOM_LOGO)
-    gui.setWindowIcon(QtGui.QIcon(path))
-    TaurusApplication.instance().setApplicationName(app_name)
-    TaurusApplication.instance().setOrganizationName(ORGANIZATION)
-    TaurusApplication.instance().basicConfig()
-
-
 # Main function
 def main(period=PERIOD):
     """Run the scope taurus gui with a given refreshing period."""
@@ -82,9 +84,7 @@ def main(period=PERIOD):
     devices, server = parse_argv_and_get_device_list(CLASSES)
     app_name = server.replace("/", "-")
     # Create GUI
-    app = TaurusApplication(app_name=app_name)
-    gui = TaurusGui()
-    set_application_name(gui, app_name)
+    app, gui = create_application(app_name, ORGANIZATION, LOGO)
     create_panels(gui, devices)
     # Hide toolbars
     gui.jorgsBar.hide()
@@ -98,7 +98,6 @@ def main(period=PERIOD):
     setup_display_action(gui, "Settings panel", "SettingsPanel")
     enable_display_buttons(gui)
     # Run
-    gui.show()
     app.exec_()
 
 
