@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(name = "taurusgui-scope",
       version = "4.1.2",
-      description = "TaurusGUI for the different scopes",
+      description = "TaurusGUI for oscilloscopes",
       author = "Vincent MICHEL",
       license = "GPLv3",
       packages = find_packages(),
