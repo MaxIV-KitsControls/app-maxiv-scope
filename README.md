@@ -17,7 +17,7 @@ Information
 Requirement
 -----------
 
- - [Taurus][https://pypi.python.org/pypi/taurus]
+ - [Taurus][taurus]
  - Device servers: [dev-maxiv-rohdescope][scopeds] >= 3.2.0
 
 [taurus]:  https://pypi.python.org/pypi/taurus
