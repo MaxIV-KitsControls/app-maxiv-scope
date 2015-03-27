@@ -1,6 +1,5 @@
 taurusgui-scope
 ===============
-***
 
 TaurusGUI for oscilloscopes.
 
