@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(name="taurusgui-scope",
-      version="4.1.3",
+      version="4.1.4",
       packages=find_packages(),
       entry_points={'gui_scripts': ['ctscope = scopegui:main']},
 
