@@ -14,7 +14,7 @@ class ScopePlotWidget(TaurusWidget):
 
     # Attributes
 
-    refresh_rate = 10 # Hz
+    refresh_rate = 10  # Hz
     channel_colors = ("FF0", "0F0", "F80", "44F")
 
     channels = range(1, 5)
@@ -131,9 +131,9 @@ class ScopePlotWidget(TaurusWidget):
                          PyTango.EventType.CHANGE_EVENT) and evt_value):
             s = evt_value.value
             wf = self.waveform_basename + evt_value.name[-1]
-            if s:
+            if s and self.waveform_plots[wf] not in self.plotitem.items:
                 self.plotitem.addItem(self.waveform_plots[wf])
-            else:
+            elif not s and self.waveform_plots[wf] in self.plotitem.items:
                 self.plotitem.removeItem(self.waveform_plots[wf])
 
     def _handle_timescale(self, evt_src, evt_type, evt_value):
