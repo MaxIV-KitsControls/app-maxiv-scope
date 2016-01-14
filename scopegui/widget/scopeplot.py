@@ -153,7 +153,10 @@ class ScopePlotWidget(TaurusWidget):
 
     def set_timescale(self, scale):
         """Set the timescale from a given list."""
-        scale = [] if scale is None else scale
+        try:
+            len(scale)
+        except TypeError:
+            scale = []
         self._timescale_data = scale
         if len(scale):
             self.vb.setRange(xRange=(scale[0], scale[-1]), padding=0)
