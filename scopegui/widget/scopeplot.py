@@ -89,7 +89,7 @@ class ScopePlotWidget(TaurusWidget):
 
         # Timer
         self.timer = QtCore.QTimer()
-        self.timer.timeout.connect(self._show_graph)
+        self.timer.timeout.connect(self.show_graph)
         self.timer.start(1000.0 / self.refresh_rate)
 
     # Overiding methods
@@ -110,7 +110,7 @@ class ScopePlotWidget(TaurusWidget):
         for i in range(4):
             wf = self.waveform_names[i]
             attr = self._waveform_attrs[wf] = self._scope.getAttribute(wf)
-            attr.addListener(self._handle_waveform)
+            attr.addListener(self)
             p = self.waveform_plots[wf] = pg.PlotDataItem(
                 pen={"color": self.channel_colors[i], "width": 1})
             self.plotitem.addItem(p)
@@ -118,38 +118,46 @@ class ScopePlotWidget(TaurusWidget):
 
             chstate = self.enabled_names[i]
             s = self._scope.getAttribute(chstate)
-            s.addListener(self._handle_state)
+            s.addListener(self)
         # Timescale
         attr = self._scope.getAttribute(self.timebase_name)
-        attr.addListener(self._handle_timescale)
+        attr.addListener(self)
 
-    # Semi private methods
+    # Update methods
 
-    def _handle_state(self, evt_src, evt_type, evt_value):
+    def handleEvent(self, evt_src, evt_type, evt_value):
+        # Parent method
+        TaurusWidget.handleEvent(self, evt_src, evt_type, evt_value)
+        # Filter events
+        if not evt_value or evt_type not in (PyTango.EventType.PERIODIC_EVENT,
+                                             PyTango.EventType.CHANGE_EVENT):
+            return
+        # Process events
+        if evt_src.name == self.timebase_name:
+            return self.handle_timebase(evt_value)
+        if evt_src.name in self.enabled_names:
+            return self.handle_channel(evt_value)
+        if evt_src.name in self.waveform_names:
+            return self.handle_waveform(evt_value)
+
+    def handle_channel(self, evt_value):
         """Handle events from the channel states."""
-        if (evt_type in (PyTango.EventType.PERIODIC_EVENT,
-                         PyTango.EventType.CHANGE_EVENT) and evt_value):
-            s = evt_value.value
-            wf = self.waveform_basename + evt_value.name[-1]
-            if s and self.waveform_plots[wf] not in self.plotitem.items:
-                self.plotitem.addItem(self.waveform_plots[wf])
-            elif not s and self.waveform_plots[wf] in self.plotitem.items:
-                self.plotitem.removeItem(self.waveform_plots[wf])
+        s = evt_value.value
+        wf = self.waveform_basename + evt_value.name[-1]
+        if s and self.waveform_plots[wf] not in self.plotitem.items:
+            self.plotitem.addItem(self.waveform_plots[wf])
+        elif not s and self.waveform_plots[wf] in self.plotitem.items:
+            self.plotitem.removeItem(self.waveform_plots[wf])
 
-    def _handle_timescale(self, evt_src, evt_type, evt_value):
+    def handle_timebase(self, evt_value):
         """Handle events from the time scale attribute."""
-        if (evt_type in (PyTango.EventType.PERIODIC_EVENT,
-                         PyTango.EventType.CHANGE_EVENT) and evt_value):
-            timedata = evt_value.value
-            self.set_timescale(timedata)
+        self.set_timescale(evt_value.value)
 
-    def _handle_waveform(self, evt_src, evt_type, evt_value):
+    def handle_waveform(self, evt_value):
         """Handle events from the channel waveforms."""
-        if (evt_type in (PyTango.EventType.PERIODIC_EVENT,
-                         PyTango.EventType.CHANGE_EVENT) and evt_value):
-            wfname = str(evt_value.name)
-            wfdata = evt_value.value
-            self.set_waveform(wfname, wfdata)
+        wfname = str(evt_value.name)
+        wfdata = evt_value.value
+        self.set_waveform(wfname, wfdata)
 
     def set_timescale(self, scale):
         """Set the timescale from a given list."""
@@ -166,7 +174,7 @@ class ScopePlotWidget(TaurusWidget):
         self._waveform_data[wfname] = wfdata
         self._waveform_flag[wfname] = True
 
-    def _show_graph(self, *args):
+    def show_graph(self, *args):
         """Update a given waveform on the graph."""
         for wf, flag in self._waveform_flag.items():
             if flag and wf in self.waveform_plots:
